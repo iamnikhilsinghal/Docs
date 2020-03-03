@@ -1,0 +1,42 @@
+1. New project on Gitbash
+2. ssh-keygen -t ed25519 -C "nikhilsinghal000@gmail.com"	: To generate SSH key
+3. Copy SSH key from .ssh folder
+4. Paste that inside SSH keys option in Gitlab
+5. ssh -T git@gitlab.com	: To check SSH is set
+6. git config --global user.name "Nikhil Singhal"
+   git config --global user.email "nikhilsinghal000@gmail.com"	: Set in terminal
+7. mkdir demo_Project
+8, cd demo_Project
+9. git init	:	To initiate .git inside your folder
+10. touch README.md
+11. vi README.md 	:	press i and write. then press esc+:+wq to save (esc++:+q! for comeout without saving)
+12. cat README.md 	:	check data
+13. git add README.md
+14. git commit -m "First commit: add README.md"
+15. git remote add git@gitlab.com:nikhils1991/demo_project.git
+16. git remote -vi 	: give URl of remote repo
+17. git push -v origin master
+18. touch .gitignore	:	This file has all those files which you wanna ignore at time of 'git add -A' eg: (*.py)
+19. touch demo.py	:	This will be ignored now
+20. vi demo.go
+21. git add .
+22. git reset	: remove all the added files after last commit
+23. git branch -a OR git remote -v		:	View info abt the remote repo (shows branch locally and on repo)
+24. git add -A
+25. git commit -m "demo.go and .gitignore added"
+26. git push origin master
+27. git branch demo_go_1
+28. git checkout demo_go_1 (A line writes in demo.go)
+29. git add -A
+30. git commit -m "A line added in demo.go"
+31. git push -u origin demo_go_1
+32. git checkout master
+33. git pull origin master  	(up to date as noone else worked on master)
+34. git branch --merged		(only master will be shown as no branch merged yet)
+35. git merge demo_go_1
+36. git push origin master
+37. git branch --merged		(now demo_go_1 will be here too with master, as merged)
+38. git branch -d demo_go_1
+39. git branch -a 		(demo_go_1 will be only deleted locally, its still in repo)
+40. git push origin --delete demo_go_1 		(To delete from repo too)
+41. git branch -a 		(Only master locally and on repo)

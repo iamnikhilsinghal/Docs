@@ -1,0 +1,33 @@
+My Task: https://shiftpixy.atlassian.net/secure/RapidBoard.jspa?rapidView=7&view=planning&selectedIssue=DEV-175
+
+For Mongo DB: http://localhost:8504
+
+For submitting code everyday in END:
+1. git status  					(Shows working files)
+2. git diff  					(Gives you the changes made by you inside the file)
+3. delete extra made file by -->    rm
+"to add code in new branch--> git checkout -b branch_name"
+4. git add .   					(Add workig files)
+5. git commit -m "dev-175:ssn num encryption decryption"
+6. git config --global user.email "nikhil.singhal@shiftpixy.com"
+7. git config --global user.name "Nikhil Singhal"
+8. git branch   				(Check Branch)
+9. git pull origin development  	(development is the project on gitbash where all have worked and Take pull to avoid conflict ahead))
+10. git push origin dev-175    			(Push code of current branch(dev-175) to origin)
+11. Quickly go on gitbash--> CI/CD ---> Pipelines (on left side) to see the processing of push
+
+12. To make a copy of development into your system:
+git checkout development		: Create a local branch 'development' or switch into 'development'
+git checkout -b dev-425			: Created a new branch with name dev-425, then we'll make a copy of devlopment into it.
+git pull origin development		: Copy development into your local branch(dev-425). After that press ctrl+x to come out from opened file.
+
+git fetch				: This will bring all new created branch into your local system so that you can checkout to any branch
+sudo chmod -R 777 ../api/	: To give complete permission to any folder
+git branch -D dev-175-encryption : To delete any branch
+sudo su		: Once you enter pwd here. No need to enter pwd again.
+git log : display a list of all of the commits on your current branch. 
+git log --oneline : Shows the same in one liners
+git pull origin HEAD : HEAD here is current branch. Here you can also write your current branch name. Its used if 2 ppl working on same file then you can match you code with other, doing this.
+git stash : temporarily but safely stashes/store your uncommitted local changes so you can work on something else, and then come back and re-apply them later on.
+git reset --hard : throw away any uncommitted changes you have means all changes after the commit will be removed.
+5d5b431c55c37e14af149195	: Imp chatID 

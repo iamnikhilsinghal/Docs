@@ -1,0 +1,9 @@
+git checkout development
+git pull origin development
+git merge development dev-220
+RESOLVED THE CHANGES IN VISUAL STUDIO (PURPLE)
+git add .
+git commit -m "resolved commits"
+git merge development dev-220    (NOW CLEAN)
+git checkout dev-220
+git rebase development 

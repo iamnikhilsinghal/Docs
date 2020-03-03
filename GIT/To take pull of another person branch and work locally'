@@ -1,0 +1,4 @@
+git fetch								//Take all branches
+git checkout database-migration  		//Checkout on his branch
+git checkout -b database-migration_enc	//make a local branch
+git pull origin database-migration      //pull all code of database-migration

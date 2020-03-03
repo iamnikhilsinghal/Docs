@@ -1,0 +1,15 @@
+Here I merged dev-363 into dev-177:
+
+Step 1. Fetch and check out the branch for this merge request
+git fetch origin
+git checkout -b dev-363 origin/dev-363
+
+Step 2. Review the changes locally
+
+Step 3. Merge the branch and fix any conflicts that come up
+git fetch origin
+git checkout origin/dev-177
+git merge --no-ff dev-363
+
+Step 4. Push the result of the merge to GitLab
+git push origin dev-177

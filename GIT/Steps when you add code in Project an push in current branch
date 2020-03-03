@@ -1,0 +1,10 @@
+	If you do any change in any Project file, follow these steps:
+1. git status	: Check the changes you have done. Keep and change acc to you.
+2. git add file_name or .	: Add the file which you want
+3. git commmit -m "    "
+4. git push origin Your_current_branch_name		: Send our local machine code to Current branch
+5. Open gitbash and go to pipeline
+6. Check if the code you pushed has succeeded and it'll send a link to dev-api in Slack
+7. The link will be like:   https://dev-fe3e5bdb.shiftpixy.com/ . This has a num: fe3e5bdb
+8. use this Link/number for Postman
+
