@@ -1,0 +1,182 @@
+Ref: https://thoughtbot.com/blog/transitions-and-transforms
+
+    animation: tyre-rotate 0.1s linear infinite;
+1. animation: tyre-rotate 0.1s linear infinite;
+2. transforms: move or change the appearance of an element,
+               transform property you can rotate, move, skew, and scale elements
+   transitions: make the element smoothly and gradually change
+   div {
+        transition: [property] [duration] [timing-function] [delay];
+       }
+Without a transition, an element being transformed would change abruptly from one state to another. 
+By applying a transition you can control the change, making it smooth and gradual.
+
+3. Without/With Transition:
+  Without:
+  .box {
+  border-radius: 5px;
+  height: 40px;
+  margin: 50px auto;
+  width: 80px;
+  
+  .wrap:hover & {
+    transform: scale(2);
+  }
+}
+
+.box1 {
+  background: mediumturquoise;
+}
+
+ With:
+ Replace .box1 with .box2:
+ .box2 {
+  background: #2b3f53;
+  transition: all 1s;
+}
+
+4. The transition-timing-function: This property allows you to define the speed of the transition over the duration. 
+The default timing is ease, which starts out slow, quickly speeds up, and then slows down at the end. 
+The other timing options are: linear, ease, ease-in, ease-out, and ease-in-out.
+
+5. .circle {
+  border-radius: 50%;
+  height: 30px;
+  width: 30px;
+  margin: 10px;
+  
+  .container:hover & {
+    transform: translateX(200px);
+  }
+}
+
+.circle0 {
+  @extend .circle;
+  background: PaleTurquoise;
+  transition: all 1.5s linear;
+}
+
+NOTE: @extend use to get all the property of the given class
+
+6. transition-delay:
+div {
+  transition: all 3s 1s;
+}
+eg: Look first box gets bigger first, then second and third:
+.box {
+  background: steelblue;
+  border-radius: 5px;
+  display: inline-block;
+  height: 80px;
+  margin: 20px;
+  width: 80px;
+  
+  .container:hover & {
+    transform: scale(1.4);
+  }
+}
+.box1 {
+  transition: all 1.3s;
+}
+.box2 {
+  transition: all 1.3s 0.5s;
+}
+.box3 {
+  transition: all 1.3s 1s;
+}
+
+
+7. Scale:
+The scale value allows you to increase or decrease the size of an element.
+For example, the value 2 would transform the size to be 2 times its original size.
+div {
+  transition: transform 1s;
+}
+div:hover {
+  transform: scale(2);
+}
+
+8.Rotate:
+With the rotate value, the element rotates clockwise or counterclockwise by a specified number of degrees. 
+A positive value, such as 90deg, rotates the element clockwise, while a negative value, such as -90deg, rotates it counterclockwise.
+You can rotate more than a full rotation with numbers over than 360, such as 1080deg, for three full rotations.
+div {
+  transition: transform 1s;
+}
+div:hover {
+  transform: rotate(1080deg);
+}
+ 
+9. Translate:
+The translate value moves an element left/right and up/down. The movement is based on the parameters given for the X (horizontal) Y (vertical) axes.9. 
+div {
+  transition: transform 1s;
+}
+div:hover {
+  transform: translate(20px, 20px);
+}
+
+10. With the skew value, the element skews (or tilts) one direction or the other based on the values given for the X and Y axes.
+A positive X value tilts the element left, while a negative X value tilts it right
+div:hover {
+  transform: skewX(-20px);
+}
+
+11. transform-origin:
+It allows you to specify the location origin of the transform. By default, the origin is in the center of the element.
+For example, 
+if you are using the transform: rotate property but want it to rotate not from the center, 
+but from the top left corner, you’d use the value 0% 0% or left top.
+div {
+  transform-origin: left top;
+  transition: transform 1s;
+}
+div:hover {
+  transform: rotate(720deg);
+}
+
+12. Keyframes:
+<div></div>
+
+div {
+  width: 100px;
+  height: 100px;
+  background: red;
+  position: relative;
+  animation: mymove 1s infinite;
+}
+@keyframes mymove {
+  from {left: 0px;}
+  to {left: 200px;}
+}
+
+13. Z-INDEX:
+<div class="box box1"></div>
+<div class="box box2"></div>
+<div class="box box3"></div>
+
+.box{
+  height:100px;
+  width:100px;
+  margin:10px;
+  position:absolute;
+  display: inline-block;
+}
+.box1{
+  @extend .box;
+  background-color:red;
+  z-index:1;
+}
+.box2{
+  @extend .box;
+  background-color:green;
+  z-index:2;
+}
+.box3{
+  @extend .box;
+  background-color:blue;
+  z-index:-3;
+}
+
+
+14. 
