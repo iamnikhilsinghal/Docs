@@ -1,0 +1,56 @@
+1. CHECK VERSIONS (if installed):
+nodejs -v
+npm -v
+
+2. INSTALL OTHERWISE:
+sudo apt install nodejs
+sudo apt install npm
+
+3. INSTALL ANGULAR:
+sudo npm install -g #angular/cli
+
+4. CHECK ANGULAR VERSION:
+ng --version
+
+--OPTIONAL--
+IF ANGULAR shows node version is old:
+sudo npm cache clean -f
+sudo npm install -g n
+sudo n stable
+
+5. CREATE NEW ANGULAR APPLICATION:		
+ng new shekher-angular
+
+6. To start your application:(by default start at localhost:4200)
+ng serve -o 		OR 			npm start (as described in package.json)
+note: to free a port if already used: sudo fuser -k 4200/tcp
+
+7. To open app in VS code:
+code .
+
+8. In VS code, imp files:
+a. The e2e folder is for end to end testing.
+b. node_modules is a folder you will never watch to touch, as it contains the project's dependencies.
+c. /src contains much of your code.
+d. /app is where you will spend the most of your time writing your Angular 8 code. It includes the routing, components, and more.
+e. /index.html is the entry point to the app, and you generally don't touch this file.
+f. /styles.scss is where your global CSS rulesets will reside.
+
+9. COMPONENT:
+The fundamental building blocks of your Angular app are the components. Components consist of 3 elements:
+a. The imports
+b. The component decorator, which are various properties for your component. The component decorator includes locations to your component's template and CSS location.
+c. The component logic, where your code resides.
+
+10. app
+a. component.html: UI
+b. component.ts: logic
+
+11. TO CREATE A NEW COMPONENT:
+ng generate component home
+ng generate component list
+------------------------------------
+
+Node js is used to write server side code inside javascript. It also has nps(Node package manager)
+*ngFor is used to setup a for loop within HTML code
+{{ }} is used for String Interpolation means for printing string

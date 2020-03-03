@@ -1,0 +1,16 @@
+											INPUT-OUTPUT FLOW
+
+INPUT
+app.component.ts				persons: string[] = ['nikhil','sudarshan','suraj'];
+persons.component.ts			@Input() personList: string[];
+app.component.html				<app-persons [personList]="persons"></app-persons>
+persons.component.html	    	<li *ngFor ="let user of personList">{{ user }}</li>
+
+
+OUTPUT:
+person-input.component.html		<input type="text" id="Name" [(ngModel)]="enteredPersonName">
+								<button (click)="onCreatePerson()"> Create</button>
+person-input.component.ts		@Output() personCreate = new EventEmitter<string>();
+								onCreatePerson()	{	this.personCreate.emit(this.enteredPersonName);		}
+app.component.html				<app-person-input (personCreate)="onPersonCreated($event)"></app-person-input>
+app.component.this				onPersonCreated(name : string) {    this.persons.push(name);  }
