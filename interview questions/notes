@@ -1,0 +1,282 @@
+1. CORS:
+Although you may not notice it, the web pages you visit make frequent requests to load assets like images, fonts, and more, from many different places across the Internet
+Cross-Origin Resource Sharing (CORS) is a mechanism that uses additional HTTP headers to tell browsers to give a web application running at one origin, access to selected resources from a different origin. A web application executes a cross-origin HTTP request when it requests a resource that has a different origin (domain, protocol, or port) from its own.
+
+2. CORE VS SHARED MODULE:
+CORE:  CoreModule, by convention, is only included in your entire app once in AppModule (only in the import property of the @NgModule() decorator inside your main app.module.ts, not in any other module's import) and this will ensure services inside it will be only created once in the entire app
+We want everything that’s inside the core module to be a Singleton 
+The services defined in the Core Module are instantiated once.
+
+3. canActivate vs canLoad:
+canActivate if unauthorized user enters still load that module . you need canLoad to achieve judgement whether it needs be loaded 
+The CanLoad Guard prevents the loading of the Lazy Loaded Module. We generally use this guard when we do not want to unauthorized user to navigate to any of the routes of the module and also stop then even see the source code of the module.
+The Angular provides canActivate Guard, which prevents unauthorized user from accessing the route. But it does not stop the module from being downloaded. The user can use the chrome developer console to see the source code. The CanLoad Guard prevents the module from being downloaded.
+
+4. Dynamic Components:
+Dynamic means, that the components location in the application is not defined at buildtime. That means, that it is not used in any angular template.
+Instead, the component is instantiated and placed in the application at runtime.
+ng-template: Angular comes with a component called ng-template that allows us to declare any part of the Angular template. 
+This is a great way of giving a flavor of dynamic-ness to our template
+eg: modals like mat-dialog
+
+5. Singleton services
+A singleton service is a service for which only one instance exists in an app.
+There are two ways to make a service a singleton in Angular:
+a. Declare root for the value of the @Injectable() providedIn property
+@Injectable({
+  providedIn: 'root',
+})
+b. Include the service in the AppModule or in a module that is only imported by the AppModule
+@NgModule({
+  ...
+  providers: [UserService],
+  ...
+})
+If this NgModule were the root AppModule, the UserService would be a singleton and available throughout the app. 
+Though you may see it coded this way, using the providedIn property of the @Injectable() decorator on the service itself is preferable 
+as of Angular 6.0 as it makes your services tree-shakable.
+A singleton is a class that allows only a single instance of itself to be created and gives access to that created instance. It contains static variables that can accommodate unique and private instances of itself. It is used in scenarios when a user wants to restrict instantiation of a class to only one object.
+
+6. CSS vs SCSS:
+CSS: 
+#header {
+  margin: 0;
+  border: 1px solid red;
+}
+#header p {
+  font-size: 12px;
+  font-weight: bold;
+  color: red;
+}
+#header a {
+  text-decoration: none;
+}
+
+.SCSS:
+$colorRed: red;
+#header {
+  margin: 0;
+  border: 1px solid $colorRed;
+  p {
+    color: $colorRed;
+    font: {
+      size: 12px;
+      weight: bold;
+    }
+  }
+  a {
+    text-decoration: none;
+  }
+}
+
+Mixins
+Some things in CSS are a bit tedious to write, especially with CSS3 and the many vendor prefixes that exist. 
+A mixin lets you make groups of CSS declarations that you want to reuse throughout your site. 
+You can even pass in values to make your mixin more flexible. A good use of a mixin is for vendor prefixes. 
+Here's an example for transform.
+@mixin transform($property) {
+  -webkit-transform: $property;
+  -ms-transform: $property;
+  transform: $property;
+}
+.box { @include transform(rotate(30deg)); }
+
+which later compiled as:
+.box {
+  -webkit-transform: rotate(30deg);
+  -ms-transform: rotate(30deg);
+  transform: rotate(30deg);
+}
+
+To create a mixin you use the @mixin directive and give it a name. We've named our mixin transform. 
+We're also using the variable $property inside the parentheses so we can pass in a transform of whatever we want. 
+After you create your mixin, you can then use it as a CSS declaration starting with @include followed by the name of the mixin.
+NOTE: mixin are basically like the function thats usable is js
+
+7. Subject vs BehaviorSubject:
+A BehaviorSubject holds one value. When it is subscribed it emits the value immediately. A Subject doesn't hold a value.
+Subject example (with RxJS 5 API):
+const subject = new Rx.Subject();
+subject.next(1);
+subject.subscribe(x => console.log(x));
+Console output will be empty
+
+BehaviorSubject example:
+const subject = new Rx.BehaviorSubject();
+subject.next(1);
+subject.subscribe(x => console.log(x));
+Console output: 1
+
+The only difference between BehaviorSubject and Subject is BehaviorSubject has an initial value which will be emitted when subscribed to.
+BehaviorSubject s are a great way to pass data back forth between a large number of components. 
+The two main methods are subscribe , for listening to new values, and next , for setting new values.
+
+A Subject, in contrast to an observable, is simply an observer that's also able to emit values. 
+It's both an observable and an observer simultaneously
+
+Observables
+They are cold: Code gets executed when they have at least a single observer.
+Creates copy of data: Observable creates copy of data for each observer.
+Uni-directional: Observer can not assign value to observable(origin/master).
+The code will run for each observer . If its a HTTP call, it gets called for each observer.
+if its a service we want to share among all the components, it wont have latest result all new subscribers will still subscribe to same observable and get value from scratch
+Unicast means can emit values from the observable not from any other component.
+subscription to an Observable re-execute the Observable function. This can lead performance issue if the data source is a service for instance.
+
+Subject
+They are hot: code gets executed and value gets broadcast even if there is no observer.
+Shares data: Same data get shared between all observers.
+bi-directional: Observer can assign value to observable(origin/master).
+If are using using subject then you miss all the values that are broadcast before creation of observer. So here comes Replay Subject
+multicast, can cast values to multiple subscribers and can act as both subscribers and emmitte
+If you want several subscribers to get the same value, you may need a Subject.
+
+
+8. @ngModule:
+https://angular.io/api/core/NgModule
+NgModules configure the injector and the compiler and help organize related things together.
+Angular libraries are NgModules, such as FormsModule, HttpClientModule, and RouterModule
+Many third-party libraries are available as NgModules such as Material Design
+Modules can be loaded eagerly when the application starts or lazy loaded asynchronously by the router.
+NgModule metadata does the following:
+a. Declares which components, directives, and pipes belong to the module.
+b. Makes some of those components, directives, and pipes public so that other module's component templates can use them.
+c. Imports other modules with the components, directives, and pipes that components in the current module need.
+d. Provides services that the other application components can use.
+
+The Angular CLI generates the following basic AppModule when creating a new app.
+import { BrowserModule } from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
+import { AppComponent } from './app.component';
+
+@NgModule({
+  declarations: [AppComponent],
+  imports: [BrowserModule],
+  providers: [],
+  bootstrap: [AppComponent]
+})
+export class AppModule {}
+
+eg: For live alert:
+  imports: [CommonModule, SharedModule, RouterModule.forChild(routes)],
+  exports: [RouterModule],
+  declarations: [LiveAlertComponent],
+  entryComponents: [],
+  providers: [LiveAlertResolver]
+
+
+9. for–in vs for–of
+a. 
+The for–in loop is for looping over object properties.
+var obj = {a:1,b:2};
+for (let prop in obj) {
+    console.log(prop);
+}
+// a
+// b
+
+If we tried to use it with an array, it might initially look like it’s working:
+let array = [10,20,30];
+for (let index in array) {
+  console.log(index);
+});
+// 0
+// 1
+// 2
+
+But if we tried to print out the type of index like so:
+let array = [10,20,30];
+for (let index in array) {
+  console.log(typeof(index));
+};
+// string
+// string
+// string
+
+
+b. 
+The for–of loop is for looping over the values in an array.
+in ES6 we have a new syntax called for-of:
+let array = [10,20,30];
+for (var value of array) {
+  console.log(value);
+}
+// 10
+// 20
+// 30
+
+for–of is not just for arrays. It also works on most array-like objects including the new Set and Map types:
+
+
+10. ES6: map & set
+a. MAP:
+Map is a new data structure introduced in ES6 which lets you map keys to values without the drawbacks of using Objects.
+let map = new Map();
+map.set("A",1);
+map.set("B",2);
+map.set("C",3);
+map.get("A");
+// 1
+map.has("A");
+// true
+map.delete("A");
+// true
+map.size
+// 2
+map.clear()
+map.size
+// 0
+
+(let [key, value] of map) {
+    console.log(key, value);
+}
+// "APPLE" 1
+// "ORANGE" 2
+// "MANGO" 3
+NOTE: A distinction between Object and Map is that Maps record the order in which elements are inserted. 
+	  It then replays that order when looping over keys, values or entries.
+
+b. SET:
+Sets are a bit like maps but they only store keys not key–value pairs.
+let set = new Set();
+set.add('APPLE');
+Sets can only store unique values, so adding a value a second time has no effect:
+let set = new Set();
+set.add('Moo');
+set.size
+// 1
+set.add('Moo');
+set.size
+// 1
+
+
+11. Object Destructuring
+a={a:1, b:2, c:3}
+b={d:2, e:4, a:2}
+
+c={...a,...b}
+c
+{a: 2, b: 2, c: 3, d: 2, e: 4}
+
+d={...b,...a}
+d
+{d: 2, e: 4, a: 1, b: 2, c: 3}
+
+
+12. innerText vs innerHTML:
+innerText retrieves and sets the content of the tag as plain text, where innerHTML retrieves and sets the same content in HTML format.
+<div id='blog test'>
+This element is <strong>strong</strong> and has some super fun <code>code</code>!
+</div>
+const getValue = document.getElementById('blog-test');
+
+getValue.innerText
+This element is <strong>strong</strong> and has some super fun <code>code</code>!
+
+getValue.innerHTML 
+This element is strong and has some super fun code!
+
+
+13. NaN == NaN				// false
+	NaN === NaN				// false
+	typeof NaN				// "number"
