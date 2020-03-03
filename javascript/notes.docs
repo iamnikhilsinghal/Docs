@@ -1,0 +1,980 @@
+1. Negative Infinity: is a number in JavaScript which can be derived by dividing negative number by zero.
+2. Breaking within a string statement can be done by the use of a backslash, '\', at the end of the first line
+eg: document.write("This is \a program");
+3. If the program tries to read the value of an undeclared variable, then a runtime error is encountered ie. 'not Defined'
+while f the program tries to read the value of an undefined variable, an undefined value is returned.
+4. The var keyword is used to declare a local variable or object. If the var keyword is omitted, a global variable is declared.
+5. The setTimeout(function, delay) function is used to start a timer that calls a particular function after the mentioned delay.
+6. === is called as strict equality operator which returns true when the two operands are having the same value without any type conversion.
+7. Variable typing: is used to assign a number to a variable and the same variable can be assigned to a string.
+eg:
+ 	i = 10;
+	i = "string";
+8. 3+2+5+''="10"
+9. types of Pop up boxes : Alert, Confirm and Prompt
+10. Void(0) is used to call another method without refreshing the page.
+11. All variables in the JavaScript are object data types.
+12. Escape characters (Backslash) is used when working with special characters like 
+single quotes, double quotes, apostrophes and ampersands. Place backslash before the characters to make it display.
+document.write "I m a "good" boy"    will be..
+document.write "I m a \"good\" boy"
+13. Cookies are the small test files stored in a computer and it gets created when the user visits the websites to store information that they need. 
+14. The shift() method is similar as the pop() method but the difference is that the Shift method works at the start of the array.
+15. Two basic groups of dataypes in JavaScript:
+Primitive types are number and Boolean data types. Reference types are more complex types like strings and dates.
+16. 'Typeof' is an operator which is used to return a string description of the type of a variable.
+17. Try   {  Code   }
+Catch(exp){ Code to throw an exception }
+Finally   { Code runs either it finishes successfully or after catch }
+18. Unshift method is like push method which works at the beginning of the array. 
+This method is used to prepend one or more elements to the beginning of the array like push append.
+19. A value can be appended to an array in the given manner - arr[arr.length] = value;
+20. nonymous function:
+A function that is declared without any named identifier is known as an anonymous function. In general, an anonymous function is inaccessible after its declaration.
+var anon = function(){
+	alert('I am anonymous');
+}
+anon()
+21. Closure: is a locally declared variable related to a function which stays in memory when the function has returned.
+22. call() vs apply()
+call() is used when the number of the function's arguments are known to the programmer.
+apply() is used when the number is not known. The function .apply() expects the argument to be an array.
+23. Event bubbling: JavaScript allows DOM elements to be nested inside each other. In such a case, 
+					if the handler of the child is clicked, the handler of parent will also work as if it were clicked too, like a bubble.
+Note: via event capturing, we can only work on one event, either child or parent.
+24. var myArray = [[[]]];             declares a three dimensional array.
+25. EncodeURl() is used to convert URL into their hex coding. And DecodeURI() is used to convert the encoded URL back to normal.
+26. ERRORS IN JS:
+JavaScript gives a message if it encounters an error. The recognized errors are -
+Load-time errors: The errors shown at the time of the page loading are counted under Load-time errors. These errors are encountered by the use of improper syntax, and thus are detected while the page is getting loaded.
+Run-time errors: This is the error that comes up while the program is running. It is caused by illegal operations, for example, division of a number by zero, or trying to access a non-existent area of the memory.
+Logic errors: It is caused by the use of syntactically correct code, which does not fulfill the required task. For example, an infinite loop.
+
+_____________________________________________________________________________________________________________________________________________________________
+
+1. In JS, global means 'not inside the function'
+2. Hoisting: Setup memory space for variable and functions
+Its not like that whatever var we declare, js takes it in start
+eg
+var a="hello world";
+function b() {
+    console.log("b is called")
+}
+b();
+console.log(a);						//b is called
+									  hello world
+
+b();
+console.log(a);
+var a="hello world";
+function b() {
+    console.log("b is called")
+}									//b is called
+									  undefined
+note: 'undefined' is the default placeholder for any var
+eg:
+a. var a;
+   console.log(a);					// undefined
+b. console.log(a);					// Uncaught ReferenceError: a is not defined
+
+3. JS is a single threaded, synchronus execution language
+Single threaded: One command at a time
+Synchronus Execution: One at a time
+
+4. 
+static typing:
+int a = 'Naman'		//error
+
+dynamic typing:
+var a = 1
+a = 'nikhil'
+
+
+5. Primitive type: is a type that holds only a single value but not an object
+undefined vs null:
+both shows lack of existence but you should assign null to variables, not undefined
+ Symbol: its a datatype used in ES6, not in course
+
+6. Operators: A special function thats is written differently
+generally takes 2 parameters and gives one result
+
+7. Operator Precedence: which operator calls first
+Operator Associativity: Whats the order of execution (LtoR or RtoL)
+Associativity comes when operators have same precedence
+To check Precedence:  https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Operator_Precedence
+
+8. COERCION: converting a value from one type to another
+eg: var a = 1 + '2'
+o/p: 12
+
+9. Equality(==) & Strict Equality(===):
+Number(null)			// 0
+Number(undefined)		// NaN
+Number(false)			// 0
+Number(true)			// 1
+
+false == 0				//true
+false === 0				//false
+
+null == 0				// false
+null === 0				// false
+
+NOTE: Somewhere (==) also works well. so to avoid confusion we use (===)
+
+10. 
+var a
+if(a) { console.log("Something") }				//
+
+a=1
+if(a) { console.log("Something") }				// Something
+
+a=0
+if(a) { console.log("Something") }				//
+
+11. 
+function greet(){ console.log('hello', name); }
+greet()					// hello undefined
+
+12. or(||) always searches the true value:
+undefined || "hello"			// "hello"
+1 || 0							// 1
+3 || 0							// 3
+undefined || 2					// 2
+
+13. Classical and Prototypal Inheritance:
+Classical is verbose: using or expressed in more words than are needed.
+Prototypal is simple and extensible
+
+14. PROTOTYPE:
+All objects have some property. One property is Prototype
+This prototype property is simply a ref to another object, called as proto{}
+One object can have a prototype and that proto{} can refer to another proto{}
+Obj->prop1, Obj->proto->prop2, Obj->proto->proto->prop3
+Now Obj can access prop1, prop2 or prop2 like Obj.prop3 directly
+This is called Prototype Chain.
+Another Obj2 can also access these prop directly.
+eg:
+var person = {
+    firstname: 'Default',
+    lastname: 'Default',
+    getFullName: function() {
+        return this.firstname + ' ' + this.lastname;  
+    }
+}
+
+var john = {
+    firstname: 'John',
+    lastname: 'Doe'
+}
+
+// don't do this EVER! for demo purposes only!!!
+john.__proto__ = person;
+console.log(john.getFullName());			// John Doe
+console.log(john.firstname);				// John
+
+var jane = {
+    firstname: 'Jane'   
+}
+
+jane.__proto__ = person;
+console.log(jane.getFullName());			// Jane Default
+
+person.getFormalFullName = function() {
+    return this.lastname + ', ' + this.firstname;   
+}
+
+console.log(john.getFormalFullName());		// Doe, John
+console.log(jane.getFormalFullName());		// Default, Jane
+NOTE: object first give priority to local var
+
+15. Everything is an object in js
+var a = {};
+var b = function() {};
+var c = [];
+a.__proto__ 						// object
+a.__proto__.__proto__				// object
+b.__proto__ 						// function
+b.__proto__.__proto__				// object
+
+16. REFLECTION: An obj can look at itself, change its property and methods
+var person = {
+    firstname: 'Default',
+    lastname: 'Default',
+    getFullName: function() {
+        return this.firstname + ' ' + this.lastname;  
+    }
+}
+
+var john = {
+    firstname: 'John',
+    lastname: 'Doe'
+}
+
+// don't do this EVER! for demo purposes only!!!
+john.__proto__ = person;
+
+for (var prop in john) {
+    console.log(prop + ': ' + john[prop]);
+}
+o/p:
+firstname: John
+lastname: Doe
+getFullName: function() {
+        return this.firstname + ' ' + this.lastname;  
+    }
+
+
+for (var prop in john) {
+    if (john.hasOwnProperty(prop)) {
+        console.log(prop + ': ' + john[prop]);
+    }
+}
+o/p:
+firstname: John
+lastname: Doe
+
+
+17. EXTEND:
+var john = {
+    firstname: 'John',
+    lastname: 'Doe'
+}
+
+var jane = {
+    address: '111 Main St.',
+    getFormalFullName: function() {
+        return this.lastname + ', ' + this.firstname;   
+    }
+}
+
+var jim = {
+    getFirstName: function() {
+        return firstname;   
+    }
+}
+
+_.extend(john, jane, jim);              // extends john with jane and jim
+
+console.log(john);
+o/p:
+Object
+firstname: "John"
+lastname: "Doe"
+address: "111 Main St."
+getFormalFullName: ƒ ()
+getFirstName: ƒ ()
+
+
+18. Member Access(.) & Computed Member Access([]) operators for object
+var ob= new Object();
+ob.first="nikhil"
+ob.last="singhal"
+console.log(ob.first)						// nikhil
+ob.address=new Object();
+console.log(ob.address)						// {}
+ob.address.street="101 barakhamba road"
+console.log(ob.address.street)				// 101 barakhamba road
+
+NOTe:
+Above object can also be defined as:
+var ob = {
+	first : "nikhil",
+	last : "singhal",
+	address : {
+		street: "101 barakhamba road"
+	}
+};
+
+19. NAMESPACE: A conatiner for variables and function
+var a="hello"
+var a="hola"
+console.log(a)						// hola
+var english={}
+english.a="hello"
+var spanish={}
+spanish.a="hola"
+console.log(english.a)				// hello
+console.log(english.greetings.a)	// Uncaught TypeError: Cannot read property 'a' of undefined
+NOTE: (.) operator is left associative so cant find greetings first
+
+20. stringify and parse:
+var a = {x:1, y:2}
+JSON.stringify(a)							// "{"x":1,"y":2}"
+JSON.parse("{"x":1,"y":2}")
+var b= JSON.parse('{"x":1,"y":2}')
+b 											// {x: 1, y: 2}
+
+21. Functions are objects in js:
+function greet(){ console.log('hello')}
+greet()							// hello
+greet.a="this is a"
+console.log(greet)				// ƒ greet(){ console.log('hello')}
+console.log(greet.a)			// this is a
+
+22. If line starts with the word 'function()', it initiates it at the same time:
+function a() { console.log('hello') }
+a()														// hello
+NOTE: a() can be written above the func defination as well
+
+As func is a variable and its also anonymous func:
+var b = function() { console.log("hello b")}
+b 														// ƒ () { console.log("hello b")}
+b()														// hello b
+c()														// Uncaught ReferenceError: c is not defined
+
+23. function can be passed and called inside another func as well:
+function log(){
+    console.log('hello')
+}
+
+function logs(a){
+    console.log(a)
+}
+
+logs('hi')
+														// hi
+logs(function log(){
+    console.log('hello')
+})														// ƒ log(){ console.log('hello') }
+
+function logs(a){ a() }
+
+logs(function log(){ console.log('hello') })			// hello
+
+
+24. Primtive type var uses 'call by value' while object uses 'call by reference':
+a=2
+b=a
+a=3
+console.log(a, b)							// 3 2
+x={a:1}
+y=x
+x.a=2
+2
+console.log(x, y)							// {a: 2} {a: 2}
+
+NOte: if uses (=) operator, then it holds the new value and sets up a new memory space
+x={a:4}
+console.log(x, y)							// {a: 4} {a: 2}
+
+25. THIS:
+initially this point to global object ie. window
+when you create a function and log this inside it, it still point to 'window'
+function a() { console.log(this); this.x="hello"; }
+a()							// Window {parent: Window, opener: null, top: Window, length: 0, frames: Window, …}
+console.log(x)				// hello
+NOTE: now x will be a variable on global window
+
+26. ARRAY: its a collection of anything:
+arr=[1, true, {name:"nikhil"}, function(name){ console.log(name) }, "naman"]
+arr 										// (5) [1, true, {…}, ƒ, "naman"]
+arr[3](arr[2].name)							// nikhil
+
+27. arguments and spread:
+function greet(f,l, ...other){
+	console.log(f);
+	console.log(l);
+	console.log(arguments);
+	console.log(other);
+}
+greet("nikhil","singhal", "wahtever we want", "will come here")
+
+o/p:
+nikhil
+singhal
+Arguments(4) ["nikhil", "singhal", "wahtever we want", "will come here", callee: (...), Symbol(Symbol.iterator): ƒ]
+(2) ["wahtever we want", "will come here"]
+
+28. Default parameters and use of Arguments:
+function greet(f,l, ...other){
+	if(arguments.length === 0){
+		console.log("No parameters passed")
+	} else {
+		f=f || "FIRST";
+		l=l || "LAST";
+	console.log(f);
+	console.log(l);
+	console.log(arguments);
+	console.log("_________________________")
+}
+}
+greet("nikhil","singhal", "wahtever we want", "will come here")
+greet();
+greet("naman")
+
+o/p:
+nikhil
+singhal
+Arguments(4) ["nikhil", "singhal", "wahtever we want", "will come here", callee: (...), Symbol(Symbol.iterator): ƒ]
+ _________________________
+No parameters passed
+naman
+LAST
+Arguments ["naman", callee: (...), Symbol(Symbol.iterator): ƒ]
+ _________________________
+
+ 29. FUNCTION OVERLOADING:
+ Normally we dont have this feature in js:
+ function greet(f,l,lang){
+	lang=lang || "en";
+	if(lang === "en"){
+		console.log("hello "+f+" "+l);
+	}
+
+	if(lang === "sp"){
+		console.log("hola "+f+" "+l);
+	}
+}
+greet("nikhil","singhal","en");
+greet("nikhil","singhal","sp");
+
+o/p:
+app.js:4 hello nikhil singhal
+app.js:8 hola nikhil singhal
+
+BUT CAN CREATE A CUSTOM ONE BY YOURSELF:
+function greet(f,l,lang){
+	lang=lang || "en";
+	if(lang === "en"){
+		console.log("hello ",f," ",l);
+	}
+
+	if(lang === "sp"){
+		console.log("hola ",f," ",l);
+	}
+}
+
+function greetEnglish(first,last) {
+	greet(first, last, "en");
+}
+
+function greetSpanish(first,last) {
+	greet(first, last, "sp");
+}
+
+greetEnglish("nikhil", "singhal");
+greetSpanish("nikhil", "singhal");
+
+30. js automatic insert semicolon sometimes, so better insert by yourself where needed
+function greet() {
+	return 
+	{
+		first: "Nikhil"
+	}
+}
+console.log(greet()); 			// undefined
+
+So use {} at right place
+function greet() {
+	return {
+		first: "Nikhil"
+	}
+}
+console.log(greet()); 			// {first: "Nikhil"}
+
+31. IIFE (Immediately Invoked Function Expression):
+//USING A FUNC STATEMENT
+function greet(name) {
+	console.log("hello", name);
+}
+greet("John");
+
+//USING A FUNC EXPRESSION (Also called First class functions)
+var a = function(name) {
+	console.log("hello", name);
+}
+a("cena");
+
+//USING IIFE
+var a = function(name) {
+	console.log("hello", name);
+}('Batista');
+a;							// It'll also work if won't write a
+
+//USING IIFE2
+(function(name) {
+	console.log("hello", name);
+}('Undertaker'));
+
+o/p:
+hello John
+app.js:9 hello cena
+app.js:15 hello Batista
+app.js:21 hello Undertaker
+
+
+32. Suppose we have 2 js files in out HTML code:
+ 		<script src="greet.js"></script>
+        <script src="app.js"></script>
+
+ greet.js:
+ a="hola";
+
+ app.js:
+ console.log("Outer:", a)
+function greet(){
+	a="hello";
+	console.log("Inner:", a);
+}
+greet()
+o/p:
+Outer: hola
+Inner: hello
+
+
+function greet(){
+	a="hello";
+	console.log("Inner:", a);
+}
+greet()
+console.log("Outer:", a)
+Inner: hello
+Outer: hello
+
+
+33. Closures: if a function needs any var which is defined outside that func, 
+its usable wheather func outside which declared that var is there or done
+eg:
+function greet(first) {
+	return function(last){
+		console.log(first," ",last)
+	}
+}
+greet("nikhil")("singhal")
+Note: Here when we call the anonymous func inside greet, greet is over and also first, but 'first' is accesible inside as well.
+
+34. Function Overloading can be possible using closures as well:
+function makeGreetings(lang){							// makeGreeting is a factory function here
+	return function(f,l){
+		if(lang === "en"){
+		console.log("hello ",f," ",l);
+	}
+	if(lang === "sp"){
+		console.log("hola ",f," ",l);
+	}
+   }
+}
+
+var greetEnglish = makeGreetings("en");
+var greetSpanish = makeGreetings("sp");
+greetEnglish('Ram', 'Kumar');
+greetSpanish('Ram', 'Kumar');
+NOTE: when greetEnglish() will be called, it'll have 2 langs, lang="en" and lang="sp", 
+and using the closure property of js, func will attach lang="en" 
+
+35. SETTIMEOUT is also a CLOSURE:
+function itsClosure(){
+	var a = "nikhil";
+	setTimeout(function(){
+		console.log(a);
+	}, 3000);
+}
+itsClosure();
+Note: here setTimeout will print 'a' which was the part of itsClosure() but accessible inside setTimeout using closure.
+
+36. CALLBACK FUNCTION:
+A funtion you give to another funcm to be run when the other func is finished
+So the func you call, 'calls back' by calling the function you gave it when it finishes.
+function itsCallbackFunc(callback) {
+	a=1000;
+	callback();
+}
+
+itsCallbackFunc(function(){
+	console.log("I am done", a);
+})
+
+itsCallbackFunc(function(){
+	console.log("All done");
+})
+
+o/p:
+I am done 1000
+All done
+
+
+37. BIND(): Creates an exact copy.
+var person= {
+	f:'john',
+	l:'Doe',
+	getName: function(){
+		return this.f + ' ' + this.l;
+	}
+}
+
+var log= function(lang1, lang2){
+	console.log(this.getName());
+}
+
+var logByBindFunc= log.bind(person);
+logByBindFunc();
+NOTE: here we use this as f and l will point to person.
+
+
+38. CALL() AND APPLY(): () just creates a copy but here you can modify the calling by yourself.
+var person= {
+	f:'john',
+	l:'Doe',
+	getName: function(){
+		return this.f + ' ' + this.l;
+	}
+}
+
+var log= function(lang1, lang2){
+	console.log("languages:", lang1, " ", lang2);
+	console.log(this.getName());
+	console.log("______________________")
+}
+
+var logByBindFunc= log.bind(person);
+logByBindFunc('en', 'sp');
+log.call(person, 'xx', 'yy');
+log.apply(person, ['xx', 'yy']);
+
+O/P:
+languages: en   sp
+john Doe
+______________________
+languages: xx   yy
+john Doe
+______________________
+languages: xx   yy
+john Doe
+
+NOTE: apply needs array[] to pass parameters
+
+
+39. FUNC BORROWING:
+var person= {
+	f:'john',
+	l:'Doe',
+	getName: function(){
+		return this.f + ' ' + this.l;
+	}
+}
+
+var person2= {
+	f:'Ram',
+	l:'Kumar'
+}
+console.log(person.getName.apply(person2));
+O/P:
+Ram Kumar
+
+40. FUNC CURRYING:
+function multi(a,b){
+	return a*b;
+}
+var multiByTwo = multi.bind(this, 2);
+console.log(multiByTwo(3));					// 6
+NOTE:
+var multiByTwo = multi.bind(this, 2);
+is working like:
+function multiByTwo(b){
+	a=2;
+	return a*b;
+}
+2 is passed in function as a first parameter. we can also pass both para there.
+if we pass both para by bind, it won't consider the outer paras:
+function multi(a,b){
+	return a*b;
+}
+var multiByTwo = multi.bind(this, 2, 4);
+console.log(multiByTwo(3));					// 8
+
+
+41. Normally to make second array double of first one:
+var arr1=[1,2,3];
+console.log(arr1);
+
+var arr2=[];
+for(i=0; i<arr1.length; i++){
+	arr2.push(arr1[i]*2);
+}
+console.log(arr2);
+
+o/p:
+[1, 2, 3]
+[2, 4, 6]
+
+NOW: BY FUNCTIONAL PROGRAMMING:
+function mapForEach(arr, fn){
+	var newArr=[];
+	for(var i=0; i< arr.length; i++){
+		newArr.push(
+			fn(arr[i])
+			)
+	};
+	return newArr;
+}
+
+var arr1=[1,2,3];
+console.log(arr1);
+
+// var arr2=[];
+// for(i=0; i<arr1.length; i++){
+// 	arr2.push(arr1[i]*2);
+// }
+
+var arr2= mapForEach(arr1, function(item){
+	return item*2;
+})
+console.log(arr2);
+o/p:
+[1, 2, 3]
+[2, 4, 6]
+
+
+Now the same func 'mapForEach' can be used :
+var arr3= mapForEach(arr1, function(item){
+	return item>2;
+})
+console.log(arr3);
+[false, false, true]
+
+
+// MORE EX. OF FUNCTIONAL PROGRAMMING:
+var checkPastLimit =  function(limiter, item) {
+	return item > limiter;
+}
+var arr4 = mapForEach(arr1, checkPastLimit.bind(this,1));
+console.log(arr4);
+o/p:  
+[false, true, true]
+
+// NOW IF YOU WANNA REMOVE ADDING BIND ALL THE TIME:
+var checkPastLimitSimplified = function(limiter) {
+	return function(limiter, item) {
+		return item > limiter;
+	}.bind(this, limiter);
+};
+var arr5 = mapForEach(arr1, checkPastLimitSimplified(1));
+console.log(arr5);
+
+
+42. underscore.js is the library having ready to use func
+Ref: underscorejs.org -> downloads(Development Version)
+To study more: underscorejs.org -> Annotated Source
+Just download unserscore.js and save it in the same folder.
+var arr6 = _.map(arr1, function(item) { return item * 3});
+console.log(arr6);																	// [3, 6, 9]
+
+var arr7 = _.filter([1,2,3,4,5,6], function(item) { return item % 2 === 0 });
+console.log(arr7);																	// [2, 4, 6]
+NOTE: lodash.com is also good for study.
+
+_______________________________________________________________________________________________
+
+43. If we craete a func, then create the object of that func.
+Then if that func doesn't return any value, then it returns the value at 'this':
+function Person(f,l){
+	console.log(this);
+	this.f="Nikhil";
+	this.l="Singhal";
+}
+
+var x = new Person();
+console.log(x);
+O/P:
+Person {}
+Person {f: "Nikhil", l: "Singhal"} 
+
+
+44. If return , it shows that:
+function Person(f,l){
+	console.log(this);
+	this.f="Nikhil";
+	this.l="Singhal";
+	return {greeting: 'Hello'};
+}
+
+var x = new Person();
+console.log(x);
+O/P:
+Person {}
+{greeting: "Hello"}
+
+45.PROTOTYPE: Its not of the function but the object created of that function.
+means the object of that func can use that prototype but not the func
+By creating a single prototype func, we can use it for any object.
+eg:
+function Person(f,l){
+	console.log(this);
+	this.f=f;
+	this.l=l;
+	console.log("The Func is invoked");
+}
+
+var x = new Person("nikhil", "Singhal");				// Function Constructors
+console.log(x);
+
+Person.prototype.getFullName= function(){
+	return this.f+' '+this.l;
+}
+
+console.log(x.getFullName());
+O/P:
+The Func is invoked
+Person {f: "nikhil", l: "Singhal"}
+nikhil Singhal
+
+46. if mistakenly we dont use 'new', and write:
+var x = Person("nikhil", "Singhal");
+o/p:
+Window {parent: Window, opener: null, top: Window, length: 0, frames: Window, …}
+The Func is invoked
+undefined
+Uncaught TypeError: Cannot read property 'getFullName' of undefined
+
+So better make the first letter capital of the function constructors so that the VS code can give error if dont use 'new'.
+
+47. BUILT IN FUNC CONSTRUCTORS:
+var str = new String("NIkhil");
+str
+O/P: String {"NIkhil"}
+NOW 'str.' will give the same function access like we get by 'String.prototype.' (on console).
+eg:
+var i = new Number(3)
+i
+o/p: Number {3}
+
+48. We can create our own functions using prototype that we can use later on any string.
+String.prototype.getLimit= function(limit) {
+	return this.length > limit;
+}
+var a = new String("John");
+console.log(a.getLimit(3));
+O/P: true
+
+49. Number and Object are different though they work same:
+var a=2;
+var b = new Number(2);
+typeof(a)								// "number"
+typeof(b)								// "object"
+a==b 									// true
+a===b 									// false
+Ref: momentjs.com
+
+50. All arrays are object in js:
+Array.prototype.fullName='Ram';
+var arr = ['a','b','c'];
+for(var i in arr){
+	console.log(i+':',arr[i])
+}
+O/P:
+0: a
+1: b
+2: c
+fullName: Ram
+
+
+51. Function constructor tries to mimic other programming lag while 'Object.create' is another way in js to create object
+var person = {
+	f:"Nikhil",
+	l:"Singhal",
+	greet: function(){
+		return "hi "+ this.f;
+	}
+}
+
+var john = Object.create(person);
+console.log(john);
+O/P:
+{}
+But if you'll open its prototype, you'll see person there
+
+var john = Object.create(null);
+console.log(john);								// {} only
+POLYFILL: Code that adds a feature which the engine may lack.
+
+52.Class is an object in js:
+then you create new object from that object(class)
+class is better than function constructor in a way that 
+here due to class, people use 'new' keyword while creating obj which they dont rem in case of func cons
+'extends' keyword is use to set the prototype in class
+
+Syntactic Sugar:
+A different way to type something that doesn't change how it works under the hood
+
+__________________________________________________________________________________________________________________________________
+
+53. typeof and instanceof:
+var a = 3;
+console.log(typeof a);				// number
+
+var b = "Hello";
+console.log(typeof b);				// string
+
+var c = {};
+console.log(typeof c);				// object
+
+var d = [];
+console.log(typeof d); // weird!							//object
+console.log(Object.prototype.toString.call(d)); 			// [object Array]
+
+function Person(name) {
+    this.name = name;
+}
+
+var e = new Person('Jane');
+console.log(typeof e);										// object
+console.log(e instanceof Person);							// true
+
+console.log(typeof undefined); 								// undefined
+console.log(typeof null);   								// object 		// a bug since, like, forever...
+
+var z = function() { };
+console.log(typeof z);										// function
+
+54. USE STRICT:
+var person;
+person2 = {};
+console.log(person2);
+o/p:
+{}
+
+Now if I use "use strict"
+o/p:
+Uncaught ReferenceError: person2 is not defined
+Ref: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Strict_mode
+
+________________________________________________________________________________________________________________________________
+
+55. TRANSPILE:
+Convert the syntax of one programming lang into another.
+For more on Typescript head to: http://www.typescriptlang.org
+and try out writing Typescript code in your browser here: http://www.typescriptlang.org/Playground
+For more on Traceur head to: https://github.com/google/traceur-compiler
+and try out writing ES6 code in Traceur in your browser here: https://google.github.io/traceur-compiler/demo/repl.html#
+
+56. 
+console.clear();
+var z = 10;
+
+if (isNaN(z) && (typeof z === "number")) {					// if (window.isNaN(z)) {				// if (Number.isNaN(z)) {
+  console.log('It is exactly NaN');
+} else {
+  console.log('It is not a number, it is something else, it could be string, boolean');
+}
+O/p:
+"It is not a number, it is something else, it could be string, boolean"
+
+
+57. var z = new Date('02-30-2019');
+console.log(z);
+o/p:
+Sat Mar 02 2019 00:00:00 GMT+0530 (India Standard Time)
+
+58. Check 2 dates are equal or not, also sort them
+console.clear();
+var a= new Date('02-28-2019');
+var b= new Date('02-26-2019');
+var c= new Date('02-27-2019');
+
+console.log(a.getTime()==b.getTime());			// false
+console.log(a.getTime()==c.getTime());			// false
+
+var d = [a,b,c];
+d.sort((a,b)=>{return a-b;})
+console.log(d)
+//[Tue Feb 26 2019 00:00:00 GMT+0530 , Wed Feb 27 2019 00:00:00 GMT+0530 , Thu Feb 28 2019 00:00:00 GMT+0530]
