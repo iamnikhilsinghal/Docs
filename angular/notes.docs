@@ -1,3 +1,43 @@
+1. JS function offset: Check system's time difference with GMT.
+    this.offset = new Date().getTimezoneOffset();
+    console.log('GMT is behind by:', this.offset);
+
+2. To access a path of newly created Component:
+        <a href="javascript:void" routerLink="/dashboard/prev-alert-details"> Details </a>
+
+3. To pass a parameter with the route:
+	a. path: 'prev-alert-details/:id',
+   	loadChildren: './prev-alert-details/prev-alert-details.module#PrevAlertDetailsModule'
+
+	b. <a href="javascript:void" [routerLink]="['/dashboard/prev-alert-details', element.Id]"> Details </a>
+
+	c. To access in another comp:
+		import { ActivatedRoute } from '@angular/router';
+		constructor(private route: ActivatedRoute) {}
+  		ngOnInit() {
+    		console.log('ID:', this.route.snapshot.params.id);
+  		}
+Topic: Parametrized routing: https://www.techiediaries.com/angular-router-route-parameters/
+
+4. To convert UTC time into our local timezone if +00.00 is not added in the time:
+a. .ts
+import * as moment from 'moment';
+moment = moment
+
+b. terminal: npm i moment
+
+c. .html:
+{{ moment.utc(comment.CreatedDate).local().format('YYYY-MM-DD h:mm a') }}
+
+
+5. FLEX:
+<td style="display: flex; justify-content: space-between !important; flex-wrap: wrap;">
+To display blocks in a row with space
+
+6. Zip a folder:
+sudo apt-get install zip
+zip -r compressed_filename.zip foldername
+
 1. For edit, two way binding is done through ngModel, like
 <input [(ngModel)]="hero.name" placeholder="name" />
 Although ngModel is a valid Angular directive, it isn't available by default.
