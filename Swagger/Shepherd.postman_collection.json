@@ -1,0 +1,632 @@
+{
+	"info": {
+		"_postman_id": "185021c3-c1cb-4821-90de-1a9a101c73e2",
+		"name": "Shepherd",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Arm Disarm",
+			"item": [
+				{
+					"name": "http://15.188.94.64/api/api/device/DisarmAllDevices?userId=26&roleId=3&IsDisarm=false",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://15.188.94.64/api/api/device/DisarmAllDevices?userId=26&roleId=3&IsDisarm=false",
+							"protocol": "http",
+							"host": [
+								"15",
+								"188",
+								"94",
+								"64"
+							],
+							"path": [
+								"api",
+								"api",
+								"device",
+								"DisarmAllDevices"
+							],
+							"query": [
+								{
+									"key": "userId",
+									"value": "26"
+								},
+								{
+									"key": "roleId",
+									"value": "3"
+								},
+								{
+									"key": "IsDisarm",
+									"value": "false"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Activity Log",
+			"item": [
+				{
+					"name": "http://15.188.94.64/api/api/Alert/AlertLog?alertId=23939",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://15.188.94.64/api/api/Alert/AlertLog?alertId=23939",
+							"protocol": "http",
+							"host": [
+								"15",
+								"188",
+								"94",
+								"64"
+							],
+							"path": [
+								"api",
+								"api",
+								"Alert",
+								"AlertLog"
+							],
+							"query": [
+								{
+									"key": "alertId",
+									"value": "23939"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Devices",
+			"item": [
+				{
+					"name": "http://15.188.94.64/api/api/device/device?userId=26&roleId=3",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://15.188.94.64/api/api/device/device?userId=26&roleId=3",
+							"protocol": "http",
+							"host": [
+								"15",
+								"188",
+								"94",
+								"64"
+							],
+							"path": [
+								"api",
+								"api",
+								"device",
+								"device"
+							],
+							"query": [
+								{
+									"key": "userId",
+									"value": "26"
+								},
+								{
+									"key": "roleId",
+									"value": "3"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "http://52.47.48.108/api/api/device/all",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"PageNumber\":1,\"SortBy\":\"ModifiedOn\",\"SortDirection\":\"Descending\",\"Filters\":{\"ClientId\":0,\"SerialNumber\":\"\",\"TypeId\":0}}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://52.47.48.108/api/api/device/all",
+							"protocol": "http",
+							"host": [
+								"52",
+								"47",
+								"48",
+								"108"
+							],
+							"path": [
+								"api",
+								"api",
+								"device",
+								"all"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Clients",
+			"item": [
+				{
+					"name": "http://15.188.94.64/api/api/user/ClientUsers?userId=27&roleId=3",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://15.188.94.64/api/api/user/ClientUsers?userId=27&roleId=3",
+							"protocol": "http",
+							"host": [
+								"15",
+								"188",
+								"94",
+								"64"
+							],
+							"path": [
+								"api",
+								"api",
+								"user",
+								"ClientUsers"
+							],
+							"query": [
+								{
+									"key": "userId",
+									"value": "27"
+								},
+								{
+									"key": "roleId",
+									"value": "3"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Alerts",
+			"item": [
+				{
+					"name": "http://52.47.48.108/api/api/SnoozeAlert/GetSnoozeeAlertCount?userId=17&roleId=2",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://52.47.48.108/api/api/SnoozeAlert/GetSnoozeeAlertCount?userId=17&roleId=2",
+							"protocol": "http",
+							"host": [
+								"52",
+								"47",
+								"48",
+								"108"
+							],
+							"path": [
+								"api",
+								"api",
+								"SnoozeAlert",
+								"GetSnoozeeAlertCount"
+							],
+							"query": [
+								{
+									"key": "userId",
+									"value": "17"
+								},
+								{
+									"key": "roleId",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "http://52.47.48.108/api/api/Alert/GetPreviousAlerts?pageNumber=1&pageSize=10",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://52.47.48.108/api/api/Alert/GetPreviousAlerts?pageNumber=1&pageSize=10",
+							"protocol": "http",
+							"host": [
+								"52",
+								"47",
+								"48",
+								"108"
+							],
+							"path": [
+								"api",
+								"api",
+								"Alert",
+								"GetPreviousAlerts"
+							],
+							"query": [
+								{
+									"key": "pageNumber",
+									"value": "1"
+								},
+								{
+									"key": "pageSize",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "http://52.47.48.108/api/api/AcknowledgeAlert/AcknowledgeAllAlerts?userId=5",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://52.47.48.108/api/api/AcknowledgeAlert/AcknowledgeAllAlerts?userId=5",
+							"protocol": "http",
+							"host": [
+								"52",
+								"47",
+								"48",
+								"108"
+							],
+							"path": [
+								"api",
+								"api",
+								"AcknowledgeAlert",
+								"AcknowledgeAllAlerts"
+							],
+							"query": [
+								{
+									"key": "userId",
+									"value": "5"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "http://15.188.43.43/api/api/Alert/Reactive?alertID=11240",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://15.188.43.43/api/api/Alert/Reactive?alertID=11240",
+							"protocol": "http",
+							"host": [
+								"15",
+								"188",
+								"43",
+								"43"
+							],
+							"path": [
+								"api",
+								"api",
+								"Alert",
+								"Reactive"
+							],
+							"query": [
+								{
+									"key": "alertID",
+									"value": "11240"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "http://15.188.43.43/api/api/SnoozeAlert/GetSnoozeeAlertCount",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://15.188.43.43/api/api/SnoozeAlert/GetSnoozeeAlertCount",
+							"protocol": "http",
+							"host": [
+								"15",
+								"188",
+								"43",
+								"43"
+							],
+							"path": [
+								"api",
+								"api",
+								"SnoozeAlert",
+								"GetSnoozeeAlertCount"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "http://15.188.43.43/api/api/SnoozeAlert/SnoozeeAlert?alertID=23279&userId=56&timer=10000",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://15.188.43.43/api/api/SnoozeAlert/SnoozeeAlert?alertID=23279&userId=56&timer=10000",
+							"protocol": "http",
+							"host": [
+								"15",
+								"188",
+								"43",
+								"43"
+							],
+							"path": [
+								"api",
+								"api",
+								"SnoozeAlert",
+								"SnoozeeAlert"
+							],
+							"query": [
+								{
+									"key": "alertID",
+									"value": "23279"
+								},
+								{
+									"key": "userId",
+									"value": "56"
+								},
+								{
+									"key": "timer",
+									"value": "10000"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "http://15.188.43.43/api/api/SnoozeAlert/GetSnoozeeAlerts?pageNumber=1&pageSize=10",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://15.188.43.43/api/api/SnoozeAlert/GetSnoozeeAlerts?pageNumber=1&pageSize=10",
+							"protocol": "http",
+							"host": [
+								"15",
+								"188",
+								"43",
+								"43"
+							],
+							"path": [
+								"api",
+								"api",
+								"SnoozeAlert",
+								"GetSnoozeeAlerts"
+							],
+							"query": [
+								{
+									"key": "pageNumber",
+									"value": "1"
+								},
+								{
+									"key": "pageSize",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "http://15.188.43.43/api/api/Alert/GetAlertDetails?alertID=10820",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://15.188.43.43/api/api/Alert/GetAlertDetails?alertID=10820",
+							"protocol": "http",
+							"host": [
+								"15",
+								"188",
+								"43",
+								"43"
+							],
+							"path": [
+								"api",
+								"api",
+								"Alert",
+								"GetAlertDetails"
+							],
+							"query": [
+								{
+									"key": "alertID",
+									"value": "10820"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Login",
+			"item": [
+				{
+					"name": "http://52.47.48.108/api/api/login/LogOff",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://52.47.48.108/api/api/login/LogOff",
+							"protocol": "http",
+							"host": [
+								"52",
+								"47",
+								"48",
+								"108"
+							],
+							"path": [
+								"api",
+								"api",
+								"login",
+								"LogOff"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "http://15.188.43.43/api/api/login/Login",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"Email\": \"Manisha@gmail.com\",\n  \"Password\": \"qss123\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://15.188.43.43/api/api/login/Login",
+							"protocol": "http",
+							"host": [
+								"15",
+								"188",
+								"43",
+								"43"
+							],
+							"path": [
+								"api",
+								"api",
+								"login",
+								"Login"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Shepherd Connect",
+			"item": [
+				{
+					"name": "http://52.47.48.108/api/api/VPNConnect/ActiveDevices",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\"PageNumber\": 1,\n\"PageSize\": 10,\n\"SortBy\": \"sample string 3\",\n\"SortDirection\": \"sample string 4\",\n\"Filters\": {\n\t\"Status\" : \"Both\"\n }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://52.47.48.108/api/api/VPNConnect/ActiveDevices",
+							"protocol": "http",
+							"host": [
+								"52",
+								"47",
+								"48",
+								"108"
+							],
+							"path": [
+								"api",
+								"api",
+								"VPNConnect",
+								"ActiveDevices"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Distributors",
+			"item": [
+				{
+					"name": "http://15.188.43.43/api/api/customer/distributors",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"PageNumber\": 1,\n  \"PageSize\": 2,\n  \"SortBy\": \"ModifiedOn\",\n  \"SortDirection\": \"Descending\",\n  \"Filters\": {\n    \"Name\":\"\"\n  }\n  }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://15.188.43.43/api/api/customer/distributors",
+							"protocol": "http",
+							"host": [
+								"15",
+								"188",
+								"43",
+								"43"
+							],
+							"path": [
+								"api",
+								"api",
+								"customer",
+								"distributors"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"protocolProfileBehavior": {}
+}

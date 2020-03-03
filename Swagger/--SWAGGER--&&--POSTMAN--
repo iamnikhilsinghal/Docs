@@ -1,0 +1,16 @@
+		--SWAGGER--
+routers.go
+v1.GET("chat_details", Chats.ChatDetails) 
+
+chatdetails.go
+mp := c.Request.URL.Query() 
+data := models.GetDetails(c, mp["chatid"][0]) 
+
+
+		--POSTMAN--
+routers.go
+v1.GET("chat_details/:id", Chats.ChatDetails) 
+
+chatdetails.go
+chatid := c.Param("id")
+data := models.GetDetails(c, chatid)

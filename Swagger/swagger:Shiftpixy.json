@@ -1,0 +1,139 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "ShiftPixy Demo",
+    "version": "1.0.0",
+    "title": "Shiftpixy"
+  },
+  "host": "localhost:8500",
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "schemes": [
+    "http"
+  ],
+  "securityDefinitions": {
+    "Bearer": {
+      "type": "apiKey",
+      "name": "Authorization",
+      "in": "header"
+    }
+  },
+  "paths": {
+    "/login": {
+      "post": {
+        "tags": [
+          "Login"
+        ],
+        "summary": "Logs user into the system",
+        "description": "This API is used to Logs into shiftpixy",
+        "operationId": "loginUser",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Chatid object that needs to be added to the store",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Users"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "Invalid username/password supplied"
+          }
+        }
+      }
+    },
+    "/api/open/chats": {
+      "post": {
+        "tags": [
+          "Save"
+        ],
+        "summary": "chatdata record to Mongo",
+        "description": "This API is used to store chat details to Mongo Database",
+        "operationId": "addSave",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Chatid object that needs to be added to the store",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Chats"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "New record created successfully!"
+          },
+          "400": {
+            "description": "Failed to enter ChatDetails data!"
+          }
+        }
+      }
+    },
+    "/api/auth/chat_details": {
+      "get": {
+        "tags": [
+          "chat_details"
+        ],
+        "summary": "Get a user by chatID",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "chatid",
+            "type": "string",
+            "required": true,
+            "description": "Chat ID of the user to get"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List ChatData successfully"
+          },
+          "400": {
+            "description": "No data found"
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "Users": {
+      "type": "object",
+      "properties": {
+        "username": {
+          "type": "string",
+          "example": "test"
+        },
+        "password": {
+          "type": "string",
+          "example": "test123"
+        }
+      }
+    },
+    "Chats": {
+      "type": "object",
+      "properties": {
+        "chatid": {
+          "type": "string",
+          "example": "5d5b431c55c37e14af149195"
+        }
+      }
+    }
+  }
+}
