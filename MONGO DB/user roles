@@ -1,0 +1,54 @@
+1. use qss
+2. db.createCollection('roles')
+3. db.roles.insert([{role:"director"},{role:"cto"},{role:"engineer"},{role:"analyst"},{role:"support"},{role:"Network"},{role:"consultant"},{role:"developer"}])
+4. db.roles.find()
+
+Output:
+{ "_id" : ObjectId("5d8004629c078cecd9e89b0f"), "role" : "director" }                                                             
+{ "_id" : ObjectId("5d8004629c078cecd9e89b10"), "role" : "cto" }                                                                  
+{ "_id" : ObjectId("5d8004629c078cecd9e89b11"), "role" : "engineer" }                                                             
+{ "_id" : ObjectId("5d8004629c078cecd9e89b12"), "role" : "analyst" }                                                              
+{ "_id" : ObjectId("5d8004629c078cecd9e89b13"), "role" : "support" }                                                              
+{ "_id" : ObjectId("5d8004629c078cecd9e89b14"), "role" : "Network" }                                                              
+{ "_id" : ObjectId("5d8004629c078cecd9e89b15"), "role" : "consultant" }                                                           
+{ "_id" : ObjectId("5d8004629c078cecd9e89b16"), "role" : "developer" }  					
+//OBJECT_ID WILL DIFFER NEXT TIME 
+
+
+5. db.createCollection('user')
+6. db.user.insert({role_id:ObjectId("5d800b0a695b9228867c8d98"), emp_id:1 , fname:"nikhil" , lname:"singhal" , sex:"male" , phone:"9045546808" , city:"noida" , hiring_date:"05-08-2019" })
+7. db.user.find()
+8. db.user.aggregate([{$lookup:{from: "roles", localField: "role_id", foreignField: "_id", as: "profile"}}])
+Output:
+{ "_id" : ObjectId("5d7fe534c2c56f3feabd148b"), "role_id" : ObjectId("5d7fe4e8c2c56f3feabd148a"), "emp_id" : 1, "fname" : "nikhil"
+, "lname" : "singhal", "sex" : "male", "phone" : "9045546808", "city" : "noida", "hiring_date" : "05-08-2019", "profile" : [ { "
+_id" : ObjectId("5d7fe4e8c2c56f3feabd148a"), "role" : "developer" } ] }
+
+
+9. db.user.aggregate([{$lookup:{from: "roles", localField: "role_id", foreignField: "_id", as: "profile"}},{ $project: {"fname": 1,"_id" : 1, "role_id" : 1, "emp_id" : 1, "fname" : 1,"lname" : 1, "sex" : 1,"phone" : 1, "city" : 1, "hiring_date" : 1, "profile.role": 1 } }])
+Output:
+{ "_id" : ObjectId("5d7fe534c2c56f3feabd148b"), "role_id" : ObjectId("5d7fe4e8c2c56f3feabd148a"), "emp_id" : 1, "fname" : "nikhil"
+, "lname" : "singhal", "sex" : "male", "phone" : "9045546808", "city" : "noida", "hiring_date" : "05-08-2019", "profile" : [ { "ro
+le" : "developer" } ] } 
+
+10. db.user.aggregate([{$lookup:{from: "roles", localField: "role_id", foreignField: "_id", as: "profile"}},{ $project: { fname: 1, profile: { $arrayElemAt: [ "$profile", 0 ] } } }, { $project: { fname: 1, profile: "$profile.role" }]);
+Output:
+{ "_id" : ObjectId("5d800c3f695b9228867c8d9a"),	"fname" : "nikhil",	"profile" : "developer" }
+
+-------------------------------------------------------------------------------------------------------------
+
+11. db.createCollection('dept')
+12. db.dept.insert({emp_id:ObjectId("5d800c3f695b9228867c8d9a"), dept_id:10 , dept_name:"tech" , salary:"50000" })
+
+13. db.user.aggregate([{$lookup:{from: "dept", localField: "_id", foreignField: "emp_id", as: "department"}},{ $project: { fname: 1, department: { $arrayElemAt: [ "$department", 0 ] } } }, { $project: { fname: 1, dept_name: "$department.dept_name", salary: "$department.salary"  }}])
+Output:
+{"_id" : ObjectId("5d800c3f695b9228867c8d9a"),"fname" : "nikhil","dept_name" : "tech","salary" : "50000"}, ...........
+
+
+Task: Find max salary with emp_name,dept_name
+
+db.user.aggregate([{$lookup:{from: "dept", localField: "_id", foreignField: "emp_id", as: "department"}},
+{ $project: { fname: 1, department: { $arrayElemAt: [ "$department", 0 ] } } }, 
+{ $project: { fname: 1, dept_name: "$department.dept_name", salary: "$department.salary"  }},
+ {$group:{_id: "$_id", maxSalary: { $max: "$department.salary"}}}
+])

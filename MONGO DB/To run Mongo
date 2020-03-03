@@ -1,0 +1,3 @@
+To run Mongo
+1. Go to terminal and Enter: mongod
+If mongo isn't installed go and install it first

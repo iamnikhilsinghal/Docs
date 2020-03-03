@@ -1,0 +1,14 @@
+func UserCount(c *gin.Context) {
+	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
+	defer cancel()
+	dbs := db.Dbcon
+	dbconnection := dbs.Collection("internalusers")
+	filter := bson.M{"admin_user": bson.M{"$eq": "test"}}
+	// count documents
+	count, err := dbconnection.CountDocuments(ctx, filter)
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println("count:", count)
+}fmt.Println("No of times:", i)
+}
