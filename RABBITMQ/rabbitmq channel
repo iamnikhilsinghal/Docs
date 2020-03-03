@@ -1,0 +1,48 @@
+Function of channel:
+1.QueueDeclare
+2.Publish
+3.Consume
+
+
+1.
+qq, err := ch.QueueDeclare(
+		queueName, // name
+		false,     // durable
+		false,     // delete when unused
+		false,     // exclusive
+		false,     // no-wait
+		nil,       // arguments
+	)
+
+durable: Queue is persisted to disks and will survive the broker restart.
+
+delete when unused: A Queue that has had at least one consumer is deleted when the last consumer unsubscribes.
+
+exclusive: Queue is used by only one connection and will be deleted when that connection closes. 
+
+
+
+3.
+msgs, err := ch.Consume(
+		qq.Name, // queue
+		"",      // consumer
+		false,   // auto-ack
+		false,   // 	
+		false,   // no-local
+		false,   // no-wait
+		nil,     // args
+	)
+
+queue: Specifies the name of the queue to consume from.
+
+consumer: Specifies the identifier for the consumer. The consumer tag is local to a channel, so two clients can use the same consumer tags. If this field is empty the server will generate a unique tag.
+
+auto-ack: If this field is set the server does not expect acknowledgements for messages.
+
+exclusive: Request exclusive consumer access, meaning only this consumer can access the queue. If other access at this time, error.
+
+no-local: If the no-local field is set the server will not send messages to the connection that published them.
+
+no-wait: If set, the server will not respond to the method. The client should not wait for a reply method. 
+
+args: A set of arguments for the consume. 

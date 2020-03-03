@@ -1,0 +1,14 @@
+On Remote Server:
+1. Install Python
+2. Open page: http://{hostname}:15672/cli/rabbitmqadmin
+3. Download and Set Path of rabbitmqadmin in envt variables
+4. Check rabbitmqadmin by typing:
+python.exe rabbitmqadmin --help
+5. Now see all queues:
+python.exe rabbitmqadmin list queues name
+6. To delete a single queue:
+python.exe rabbitmqadmin delete queue name='queuename'
+7. To delete all queues:(Using Policy)
+https://stackoverflow.com/questions/11459676/delete-all-the-queues-from-rabbitmq
+8. To purge a queue:
+python.exe rabbitmqadmin purge queue name=name_of_queue

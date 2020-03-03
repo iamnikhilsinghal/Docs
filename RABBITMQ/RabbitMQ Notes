@@ -1,0 +1,12 @@
+RabbitMQ is a queue that stores information
+first worker(Listerner) listens all API calls and stores them in a queue
+Then second worker(Execution worker) executes those APIs in the order 1st worker got them
+
+hellosign exectues 1 call/sec, what if more that one call/sec
+There RabbitMQ comes into existence for	 handling those APIs
+
+To run RabbitMQ:
+1. sudo make logs-rabbitmq
+2. http://localhost:8505/
+3. Username: guest
+   Pwd:	guest
