@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style> 
+
+.main{
+padding: 200px;
+}
+
+.box {
+  width: 100px;
+  height: 100px;
+  background: red;
+  position: relative;
+  margin: 3px;
+  display: inline-block;
+}
+
+.box1{
+          animation: mymove1 5s infinite;
+}
+
+@keyframes mymove1 {
+  from {top: 200px;}
+  to {top: 0px;}
+}
+
+.box2{
+          animation: mymove2 5s infinite;
+}
+
+@keyframes mymove2 {
+  from {left: 200px;}
+  to {left: 0px;}
+}
+
+.box3{
+          animation: mymove3 5s infinite;
+}
+@keyframes mymove3 {
+  from {right: 200px;}
+  to {right: 0px;}
+}
+
+.box4{
+          animation: mymove4 5s infinite;
+}
+
+
+@keyframes mymove4 {
+  from {bottom: 200px;}
+  to {bottom: 0px;}
+}
+
+b{
+padding:30px;
+font-size:60px;
+color:white;
+}
+
+
+#wire {
+  text-align: center;
+  position: relative;
+  top: -82px;
+  border-bottom: 3px solid #222;
+  height: 100px;
+  margin: 0;
+  padding: 0;
+}
+
+#wire li {
+  position: relative;
+  height: 30px;
+  width: 15px;
+  display: inline-block;
+  top: 103px;
+  list-style: none;
+  border-radius: 50%;
+  padding: 0;
+  margin: 0 15px;
+  animation-duration: 1s;
+  animation-iteration-count: infinite;
+  animation-fill-mode: both;
+}
+
+#wire li:nth-child(even) {
+  animation-name: even-flash;
+}
+
+#wire li:nth-child(odd) {
+  animation-name: odd-flash;
+}
+
+#wire li:before {
+  content: '';
+  position: absolute;
+  width: 14px;
+  height: 10px;
+  border-radius: 4px;
+  background: #444;
+  left: 1px;
+  top: -6px;
+}
+
+@keyframes even-flash {
+  0%,
+  100% {
+    background: rgba(255, 230, 65, 1);
+    box-shadow: 0px 2px 20px 4px lightgreen;
+  }
+  50% {
+    background: rgba(255, 230, 65, 1);
+    box-shadow: 0px 2px 20px 4px rgba(255, 65, 185, 0.3);
+  }
+}
+
+@keyframes odd-flash {
+  50% {
+    background: red;
+    box-shadow: 0px 2px 20px 4px rgba(255, 65, 185, 1);
+  }
+  0%,
+  100% {
+    background: red;
+    box-shadow: 0px 2px 20px 4px lightgreen;
+  }
+}
+
+
+
+</style>
+</head>
+<body>
+
+<hr>
+<ul id="wire">
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+  <li></li>
+</ul> 
+
+<div class="main">
+<div class="box box1"><b>A</b></div>
+<div class="box box2"><b>M</b></div>
+<div class="box box3"><b>A</b></div>
+<div class="box box4"><b>N</b></div>
+</div>
+
+</body>
+</html>
