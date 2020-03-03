@@ -1,0 +1,112 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "This API is used to show active users in alphabetical order",
+    "version": "1.0.0",
+    "title": "View Client"
+  },
+  "host": "localhost:8500",
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "schemes": [
+    "http"
+  ],
+  "securityDefinitions": {
+    "Bearer": {
+      "type": "apiKey",
+      "name": "Authorization",
+      "in": "header"
+    }
+  },
+  "paths": {
+    "/login": {
+      "post": {
+        "tags": [
+          "Login"
+        ],
+        "summary": "Logs user into the system",
+        "description": "This API is used to Logs into shiftpixy",
+        "operationId": "loginUser",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Pass Username and Password here",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Users"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "Invalid username/password supplied"
+          }
+        }
+      }
+    },
+    "/api/view_client_list": {
+      "post": {
+        "tags": [
+          "view_client_list"
+        ],
+        "summary": "Get a user by status",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "status",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Client"
+            },
+            "description": "Pass the status as active or disabled"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List Active users successfully"
+          },
+          "400": {
+            "description": "No data found"
+          }
+        },
+        "security": [
+          {
+            "Bearer": []
+          }
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "Users": {
+      "type": "object",
+      "properties": {
+        "username": {
+          "type": "string",
+          "example": "test"
+        },
+        "password": {
+          "type": "string",
+          "example": "test123"
+        }
+      }
+    },
+    "Client": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "string",
+          "example": "active"
+        }
+      }
+    }
+  }
+}
