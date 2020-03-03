@@ -1,0 +1,65 @@
+Client Side:
+1. In .HTML:
+ 		<mat-paginator [length]="100"
+              [pageSize]="10"
+              [pageSizeOptions]="[5, 10, 25, 100]"
+              [pageIndex]= "0"
+              >
+      	</mat-paginator>
+
+2. In .TS:
+	import { MatPaginator } from '@angular/material';
+	@ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
+	ngAfterViewInit() {
+    this.dataSource.paginator = this.paginator;
+  	}
+
+
+Server Side:(via API)
+1. In .HTML:
+		<mat-paginator
+                [length]="100"
+                [pageSize]="10"
+                [pageSizeOptions]="[5, 10, 25, 100]"
+                [pageIndex]= "0"
+                (page)="read($event)"
+                >
+        </mat-paginator>
+
+2. In .TS
+ // Paginator
+  pageDetails = {
+    pageIndex: 0,
+    pageSize: 10
+  };
+  
+read(pageDetails: any) {
+    this.spinner.show();
+    this.prevAlertService.toRead({
+        pageNo: pageDetails.pageIndex + 1,
+        pageSize: pageDetails.pageSize,
+      })
+      .subscribe((prevAlerts: any) => {
+        // console.log('API Response:', prevAlerts);
+        pageDetails.length = prevAlerts.Response.totalCount;
+        while (this.index !== prevAlerts.Response.length) {
+          const alert =  prevAlerts.Response[this.index];
+          alert.ReceivedFrom = alert.ReceivedFrom.match(/"(.*?)"/g)[0].replace(/"/g, ''),
+          alert.ReceivedDate = this.datePipe.transform(alert.ReceivedDateTime, 'longDate'),
+          alert.ReceivedTime = this.datePipe.transform(alert.ReceivedDateTime, 'longTime'),
+          alert.EventDate = this.datePipe.transform(alert.EventTime, 'longDate'),
+          alert.EventTime = this.datePipe.transform(alert.EventTime, 'longTime');
+          this.dataSource.data = JSON.parse(JSON.stringify([...[alert], ...this.dataSource.data]));
+          this.index++;
+        }
+        // console.log('Updated Data:', this.dataSource.data);
+        this.spinner.hide();
+      });
+    this.index = 0;
+    this.dataSource.data = [];
+    }
+
+3. In .service.TS
+toRead({pageNo, pageSize}) {
+  return this.http.get('/Alert/GetPreviousAlerts?pageNumber=' + pageNo + '&pageSize=' + pageSize + '');
+}

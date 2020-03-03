@@ -1,0 +1,44 @@
+1. .html : 
+<a href="#" (click)= "getImage(att.OriginalAttachmentPath)">
+  <img src="assets/images/download.png" height="40px" width="40px" style="margin-bottom: 75px;"/>
+</a>
+
+2. .ts : 
+import { HttpClient } from '@angular/common/http';
+constructor( private http: HttpClient,) 
+getImage(urlImage) {
+    this.http.get('https://cors-anywhere.herokuapp.com/' + urlImage, { responseType: 'blob' }).subscribe(val => {
+      const url = URL.createObjectURL(val);
+      this.downloadUrl(url, '');
+      URL.revokeObjectURL(url);
+    });
+  }
+  downloadUrl(url: string, fileName: string) {
+    const a: any = document.createElement('a');
+    a.href = url;
+    a.download = fileName;
+    document.body.appendChild(a);
+    a.style = 'display: none';
+    a.click();
+    a.remove();
+  }
+
+3. .module.ts : 
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { HttpClientModule } from '@angular/common/http';
+
+@NgModule({
+  declarations: [],
+  imports: [CommonModule, HttpClientModule]
+})
+export class AlertDialogModule {}
+
+
+
+
+Note:
+Download image on system:
+<a [href]="att.OriginalAttachmentPath" target="_blank" download>
+    <img src="assets/images/download.png" height="40px" width="40px" style="margin-bottom: 75px;"/>
+</a>

@@ -1,0 +1,350 @@
+1. TO set Project title in tab:
+import {Title} from '@angular/platform-browser';
+private titleService: Title
+this.titleService.setTitle('SHEPHERD')
+
+2. To play audio after an interval:
+<audio id="myAudio">
+  <source src="assets/audio/beeps_message.mp3" type="audio/mpeg">
+	  Your browser does not support the audio element.
+</audio>
+
+ngAfterViewInit() {
+    this.audioIntervalId = setInterval(this.playAudio.bind(this), 9000);
+  }
+ngOnDestroy() {
+    clearInterval(this.audioIntervalId);
+  }
+
+playAudio() {
+    const aud: any = document.getElementById('myAudio');
+    if (this.ackIdsList.length < this.dataSource.data.length) {
+      aud.play();
+    }
+  }
+NOTE: 
+1. this.playAudio.bind(this): bind(this) will help to bind the property used in playAudio as this.ackIdsList & this.dataSource
+2. ngOnDestroy is needed to clearInterval once it was set inside ngAfterViewInit
+3. In ngAfterViewInit  we called the function as all dom functionality happens after ngOnit().
+
+3. To give some value from TS to HTML page:
+<p id="demo"></p>   (HTML)
+document.getElementById('demo').innerHTML = 'hello';   (TS)
+
+4. LODASH: Utility library to fetch unique id(or other field) from the given column. It has other features as well.
+npm i lodash @types/lodash -S
+import { uniqBy } from 'lodash';
+this.alertsCache = uniqBy(this.alertsCache, 'Id');
+
+5. To find difference between 2 dates:
+ diff_minutes(item) {
+    const dt1: any = moment.utc(item.ReceivedDateTime).local();
+    const dt2 = new Date();
+    let diff = (dt2.getTime() - dt1) / 1000;
+    diff /= 60;
+    const diffInMins = Math.abs(Math.round(diff));
+    // console.log('difference(in mins)', diffInMins);
+    if (diffInMins < 100000) {
+      return true;
+    }
+    return false;
+  }
+
+6. forEach and splice:
+this.getAlertsCache().forEach((item, index) => {
+    if (item.Id === alert.Id) {
+        this.getAlertsCache().splice(index, 1);
+    }
+});
+forEach: it takes (item, index) format
+splice(index, 1): It will remove 1 element from the given index
+splice() also adds the item like fruits.splice(2, 0, "Lemon", "Kiwi") : means no removal from index 2 and add another 2 elements.
+
+7. Rabbitmq to move msg from one queue to another:
+Rabbitmq plugin enable rabbitmq_shovel rabbitmq_shovel_management
+
+8. Rabbitmq to delay alert for a time:
+rabbitmq-plugins enable rabbitmq_delayed_message_exchange
+sudo service rabbitmq-server restart
+a. Create an exchange with type='X-delayed-message' and Arguments: 'x-delayed-type=direct'
+b. Bind it with a queue
+c. While Publish message, in headers: 'x-delay=10000' , Time is in milliseconds
+
+9. To reach any particular commit:
+Take that commit id by git log and:
+git reset 4af915736881acfe9834e7d77c130d5bb695c068
+git status
+git checkout -- .
+git status
+git clean -f -d
+git checkout -b nikhil-stable
+git push -u origin nikhil-stable
+
+10. If we want to use one module everywhere, mention it inside shared.module.ts:
+like flex:
+import { FlexLayoutModule } from '@angular/flex-layout';
+const importedAndExported = [
+FlexLayoutModule
+];
+
+11.       <span
+        class="px-3 mx-2"
+mx: for margin, in bootstrap
+
+12. unshift() : This method adds one or more elements to the beginning of an array and returns the new length of the array.
+Note: It should use less as performance gets slow.
+const array1 = [1, 2, 3];
+console.log(array1.unshift(4, 5));
+// expected output: 5
+console.log(array1);
+// expected output: Array [4, 5, 1, 2, 3]
+
+13. To reload the whole page:
+ this.pageReload = setInterval(this.pageReloadFunc.bind(this), 90 * 1000);
+ clearInterval(this.pageReload);
+ pageReloadFunc() {
+    window.location.reload();
+  }
+
+ 14. for (const item in this.messages) {
+ERROR: for (... in ...) statements must be filtered with an if statement (forin)
+So use:
+for (const item of Object.keys(this.messages)) 
+
+15.  msg.startsWith('<<< MESSAGE')
+It'll check the msg must start with the given string.
+
+16. If an input field takes chrome's cookie as user name and pwd:
+<mat-form-field 
+autocomplete="new-password"
+
+17. To permanently set your credentials in GIT:
+git config --global credential.helper store
+Now : git pull
+this is you need to add credentials while next time direct.
+Note: To remove:
+git config --global --unset credential.helper
+
+18. To make your GIT very informative with branch and work shown:
+vim ~/.bashrc
+an paste at last:
+export GIT_PS1_SHOWDIRTYSTATE=1
+export GIT_PS1_SHOWCOLORHINTS=1
+export GIT_PS1_SHOWUNTRACKEDFILES=1
+export PS1='\[\033[00;36m\]\u@\h\[\033[00m\]:\[\033[01;34m\] \w\[\033[00m\]$(__git_ps1 " (%s)")\$ '
+
+19.If we want to bind a variable of component into html:
+[matBadge]="finalLengthPrev"
+where finalLengthPrev = 3 in .ts 
+
+20. How to pass a value from child component to parent component on an event change:
+Child comp:
+this.allAlertCount= 4
+this.alertService.alertCountUpdated.next(this.allAlertCount);
+
+Parent:
+model.ts:
+export interface AlertCount {
+  live: number;
+  snoozed: number;
+  prev: number;
+}
+
+service.ts:
+alertCountUpdated = new Subject<AlertCount>();
+
+comp.ts:
+this.alertService.alertCountUpdated.subscribe((count: AlertCount) => {
+    console.log('count received', count);
+})
+NOTE: 'AlertCount' can be 'any' also
+https://angular.io/guide/component-interaction
+
+21. To make coma seperated array:
+   var nameArr = this.allAlertCount.split(',');
+            console.log('nameArr:', nameArr);
+
+            const text = this.allAlertCount;
+            const parts = text.split(',');
+            const loc = parts.pop();
+
+22. toPromise: holds the sequential calling of APIs.  
+let p1;
+    let p2;
+    p1 = this.alertService
+      .toGetSnoozeAlerts({
+        pageNo: 1,
+        pageSize: 10
+      })
+      .toPromise();
+    p2 = this.alertService
+      .toGetPrevAlerts({
+        pageNo: 1,
+        pageSize: 10
+      })
+      .toPromise();
+
+    Promise.all([p1, p2]).then(r => {
+      this.spinner.hide();
+      if (r[0] && r[0].Response) {
+        this.totalSnooze = r[0].Response.AlertTotalCount;
+      }
+      if (r[1] && r[1].Response) {
+        this.totalPrev = r[1].Response.AlertTotalCount;
+      }
+    });
+  }
+
+  23.  useValue: { duration: 2500, verticalPosition: 'top' } 
+  inside material.module.ts is usefull for snackbar.
+
+  24. To check stomp is active:
+    // if (!this.rxStompService.active) {
+    //   const a = this.rxStompService.activate();
+    //   console.log('a', a);
+    // }
+
+ 25. Instead of creating a tag via HTML, we can also add it via ts:
+HTML:  <audio id="myAudio" muted="muted">
+        <source src="assets/audio/beeps_message.mp3" type="audio/mpeg" />
+        Your browser does not support the audio element.
+       </audio>
+TS:    const audio = document.createElement('audio');
+       audio.setAttribute('muted', 'muted');
+       const source = document.createElement('source');
+       source.setAttribute('src', 'assets/audio/beeps_message.mp3');
+       source.setAttribute('type', 'audio/mpeg');
+       audio.appendChild(source);
+       audio.click();
+       audio.play();
+       console.log('Playing audio: ' + new Date());
+
+       istead of..
+       const aud: any = document.getElementById('myAudio');
+        console.log('Playing audio: ' + new Date());
+        aud.play();
+          
+26.Defining a global log which can be disabled before deploying code on production.
+It will disable all the logs inside the application.
+  log(msg, type) {
+    switch (type) {
+      case 'debug':
+        console.log(msg);		//Comment this at deployment time
+        break;
+      case 'info':
+        console.log('INFO: ' + msg);
+        break;
+      case 'error':
+        console.log('ERROR: ' + msg);
+        break;
+    }
+  }
+ 
+ call it anywhere like:
+ this.log('Acknowleding message', 'debug');
+
+ 27. If you wanna calculate the total time a func takes for execution:
+    console.time('first');      at start
+    console.timeEnd('first');	at the end
+ 
+28. To convert double quote to single quote:
+Install prettier and Create file with name:
+.prettierrc, in main folder
+with content:
+{
+  "singleQuote": true
+}
+
+29. Use of Resolver:
+Before reaching to a path, we require some values. So we call that API inside resolver.
+So after reaching that page, we can use those values and stops UI breaks
+resolver.ts:
+ resolve(route: ActivatedRouteSnapshot): Observable<any> | Promise<any> | any {
+    return this.deviceService.toGetDistributorList();
+  }
+
+ component.ts:
+ this.activatedRoute.data.subscribe((response: any) => {..
+
+30. To run out code to other system without deploying it:
+hostname -I : it will give your IP address
+ng serve --host=192.168.1.83
+Now others can run via:
+192.168.1.83:4200 istead of localhost:4200
+
+31. 
+if (!this.showPara) {
+      this.showPara = true;
+    } else {
+      this.showPara = false;
+    }
+can be written as:
+this.showPara = !this.showPara;
+
+32. TO make live alert table with simple html:
+<table class="table table-striped table-sm">
+    <thead>
+      <tr>
+        <th>S No</th>
+        <th>Id</th>
+        <th>Subject</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let el of dataSource.data; index as i">
+        <td>{{ i + 1 }}</td>
+        <td>{{ el.Id }}</td>
+        <td>{{ el.Subject }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+33. Email Pattern:
+    Email: [
+          '',
+          Validators.pattern(
+            /^[a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,15})$/
+          )
+        ],
+
+34. return of(null);   (in service.ts)
+If you subscribed something in comp but no api in service
+
+35. Update from Angular 8 to 9:  
+    loadChildren: './auth/auth.module#AuthModule'
+    loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule)
+
+36. To show (...) if some coloumn has more data:
+ellipsis.pipe.ts:
+import { Pipe, PipeTransform } from '@angular/core';
+@Pipe({
+  name: 'ellipsis'
+})
+export class EllipsisPipe implements PipeTransform {
+  transform(value: any, ...args: any[]): any {
+    if (typeof args === 'undefined') {
+      return value;
+    }
+
+    if (value && value.length > args) {
+      return `${value.substring(0, args)}...`;
+    } else {
+      return value;
+    }
+  }
+}
+
+also mention it inside declarations, exports and providers of the shared module.
+Now where you wanna use it:
+matTooltip="{{ element[col.id] | parseToActualDatatype: col.type }}"
+matTooltipDisabled="{{ element[col.id].length <= 25 }}">
+        {{ element[col.id] | ellipsis: 50 }}
+      </mat-cell>
+
+
+37. When we install any package, we need to do npm i --save <package name>
+Then mention that in importedAndExported inside shared,module.ts.
+
+
+    <span [innerHTML]="htmlstr"></span>
+  htmlstr = '<font face="Arial"><b><u><i>Nikhil</i></u></b></font>';

@@ -1,0 +1,33 @@
+  app.component.ts
+
+  ngAfterViewInit() {
+    setInterval(() => {
+      this.checkInactivity();
+    }, 30 * 1000);
+  }
+
+  checkInactivity() {
+    const idleDuration = this.getIdleDuration();
+    if (idleDuration === 300) {
+      console.log(idleDuration);
+      this.authService.logout();
+    }
+    this.setIdleDuration(idleDuration + 30); // seconds
+  }
+
+  @HostListener('document:mousedown', ['$event'])
+  @HostListener('document:mousemove', ['$event'])
+  @HostListener('document:touchstart', ['$event'])
+  @HostListener('document:scroll', ['$event'])
+  @HostListener('document:keydown', ['$event'])
+  handleEvent(event: any) {
+    this.setIdleDuration(0);
+  }
+
+  getIdleDuration() {
+    return JSON.parse(localStorage.getItem('idleDuration') || '0');
+  }
+
+  setIdleDuration(duration) {
+    localStorage.setItem('idleDuration', JSON.stringify(duration));
+  }

@@ -1,0 +1,15 @@
+To show user's email from service (API) to admin html:
+1. auth.service.ts :   public user: any;
+
+2. login.component.ts :
+if (resp.code === 200 && resp.message === 'successful') {
+          this.authService.user = { email: this.loginForm.value.email }; // resp.data
+        } 
+
+3. admin.component.ts : 
+  	user: any = {};
+ 	ngOnInit() {
+    this.user = this.authService.user;
+  }
+  
+4. admin.component.html :  Welcome {{ user.email }}

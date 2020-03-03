@@ -1,0 +1,28 @@
+1. login.component.ts:
+ onSubmit(f) {
+     console.log('username:', f.value.username);
+      console.log('password:', f.value.password);
+      if (f.value.username === 'qss' && f.value.password === '123') {
+          this.router.navigate(['dashboard']);
+        } else {
+          this.snackBar.open('Login Failed!', 'OK');
+        }
+
+2. auth-gaurd.service.ts:
+canLoad(): Observable<boolean> | Promise<boolean> | boolean {
+     return true;
+
+3. app.comp.ts:
+ logout() {
+    this.spinner.show();
+    this.router.navigate(['auth', 'login']);
+    this.spinner.hide();
+
+4. app.comp.html:
+  <div class="position-absolute" *ngIf="flag" style="z-index: 4; right: 0;">
+      <span class="badge badge-info initials">
+        NS
+      </span>
+      <span style="color: #68c7ea; background-color: initial;">
+         Nikhil Singhal
+      </span>

@@ -1,0 +1,89 @@
+1. JSON.parse() : JSON string ---> JavaScript object
+JSON.stringify() : JavaScript object ---> JSON string.
+
+2. SessionStorage : The data is persisted only until the window or tab is closed.
+LocalStorage : The data is persisted until the user manually clears the browser cache or until your web app clears the data. 
+Note: LocalStorage and sessionStorage accomplish the exact same thing and have the same API.
+eg: You can use JSON.stringify to store complex objects;
+	let myObj = { name: 'Skip', breed: 'Labrador' };
+	localStorage.setItem(key, JSON.stringify(myObj));
+ref: login.component.ts :-localStorage.setItem('crs', JSON.stringify({ user: response.data }));
+https://alligator.io/angular
+
+3. Popup box with ok: 
+	import { MatSnackBar } from '@angular/material';
+    private snackBar: MatSnackBar
+	this.snackBar.open('Login Failed!', 'OK');
+
+4. 	Loading Spinner : (On Condition)
+	import { NgxSpinnerService } from 'ngx-spinner';
+    private spinner: NgxSpinnerService,
+	this.spinner.show();
+	this.spinner.hide();
+
+5. login({ email = null, password = null }): Observable<any> 
+ { return this.http.post(`/login`, { email, password }); }
+ Here used Observable as it will have the response type of returned data by login API.
+
+ 6. Promise : A promise is an API abstraction that allows you to handle asynchronous operations synchronously.
+   A Promise can be in one of the following states:
+	pending: this is the initial state, neither fulfilled nor rejected.
+	fulfilled: the operation completed successfully.
+	rejected: the operation failed.
+
+7. environment.ts : It's used to give the global info like:
+	export const environment = {
+    production: false,
+    baseUri: 'http://35.180.128.167/nibrs/api'
+	};
+
+8. Interceptors : provide a mechanism to intercept and/or mutate outgoing requests or incoming responses.
+				  very similar to the concept of middleware with a framework like Express.
+
+9. NETSH : Netsh is a command-line scripting utility that allows you to, either locally or remotely, display or modify the network configuration of a computer that is currently running.
+		   Netsh also provides a scripting feature that allows you to run a group of commands in batch mode against a specified computer.	
+
+10. To enable rabbitmq in Angular:
+Github code: https://stomp-js.github.io/guide/ng2-stompjs/2018/11/04/ng2-stomp-with-angular7.html
+rabbitmq-plugins enable rabbitmq_web_stomp_examples			
+
+11. Spread Operator
+
+// normal array concat() method 
+let arr = [1,2,3]; 
+let arr2 = [4,5]; 
+arr = arr.concat(arr2); 
+console.log(arr); // [ 1, 2, 3, 4, 5 ] 
+
+same output with the help of the spread operator:
+arr = [...arr,...arr2]; 
+console.log(arr); // [ 1, 2, 3, 4, 5 ] 
+
+12. enableTracing: false inside app-routing.module.ts: checks the whole routing of a module.
+
+13. entryComponents: [DialogDataExampleDialogComponent] inside case-list.module will compile the components that are not loaded in starting but later.
+
+14. package.json has commands shortcuts.
+
+15. npm run build : To create bundle
+
+16. angular.json has the default name of the bundle created.
+
+17.  if (url.includes('/Alert')) 
+It will check if URL contains '/Alert'
+
+18. To read Headers of response in Abgular:
+toRead({pageNo, pageSize}) {
+  this.http
+  .get<any>('APIurl', {observe: 'response'})
+  .subscribe(resp => {
+    console.log('resp', resp);
+    console.log('Paging-Headers', resp.headers.get('Content-Length'));
+  });
+}
+
+19. If you added a file in an earlier commit, you need to remove it from your repository history. Do this:
+git rm -r --cached .
+
+20. git push origin -u Nikhil_dev
+Now next time you only need to write 'git push'
