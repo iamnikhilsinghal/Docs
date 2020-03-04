@@ -982,3 +982,21 @@ console.log(d)
 59. prototype vs __proto__
 prototype is used by constructor() functions. It should've really been called something like, "prototypeToInstall", since that's what it is.
 and __proto__ is that "installed prototype" on an object (that was created/installed upon the object from said constructor() function)
+
+60. 
+ function a (name) {
+  this.name = name;
+ }
+undefined
+a
+ƒ a (name) {
+  this.name = name;
+ }
+a.prototype
+{constructor: ƒ}constructor: ƒ a(name)length: 1name: "a"arguments: nullcaller: nullprototype: {constructor: ƒ}__proto__: ƒ ()[[FunctionLocation]]: VM103:1[[Scopes]]: Scopes[1]__proto__: Object
+var b = new a ('JavaScript');
+undefined
+b.__proto__
+{constructor: ƒ}
+
+NOW: b.__proto__ === a.prototype
