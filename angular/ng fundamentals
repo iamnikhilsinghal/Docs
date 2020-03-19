@@ -1,0 +1,1302 @@
+1. For edit, two way binding is done through ngModel, like
+<input [(ngModel)]="hero.name" placeholder="name" />
+Although ngModel is a valid Angular directive, it isn't available by default.
+ngModel is used for two way data binding
+It belongs to the optional FormsModule:
+import { FormsModule } from '@angular/forms';
+
+2. Every component must be declared in exactly one NgModule.
+
+3. @Input:
+To bind property of on component to another.
+in one comp: <app-hero-detail [hero]="selectedHero"></app-hero-detail>
+another: @Input() hero: Hero;
+
+4. Services are a great way to share information among classes that don't know each other.
+
+5. Observable is one of the key classes in the RxJS library.
+and The subscribe() method passes the emitted array to the callback, 
+
+6. https://docs.emmet.io/cheat-sheet/
+for shortcuts of VS code
+closePic
+7. import { Observable, of } from 'rxjs';
+of(HEROES) returns an Observable<Hero[]> that emits a single value, the array of mock heroes.
+
+8. npm install --save bootstrap@3
+to install bootstrap
+
+9. in project, index.html is the file that is served by the server
+
+10. '@' is always used with 'component'.
+Comp build web pages while module bind different pieces of app like comp etc into a package.
+
+11. When we create nre comp, it should be mentioned in the main  app.module's declarations.
+
+12. String Interpolation use: {{ data }}.
+data passed inside must be a string. 
+We can also write hardcoded {{ 'server' }}
+or any function which returns a string {{ getData() }}
+
+13.
+.ts: flag= nikhil
+.html:
+String Interpolation: <p>{{ flag }}</p>
+Property binding: <p [innerText]="flag"></p>
+
+14. Parent to child/ between two siblings: 
+@Input(): Use..
+create 2 comps 
+comp1.ts: flag=false
+comp1.html: <app-comp1 [hero]="flag"></app-comp1>
+
+comp2.ts: @Input() hero: any;
+comp2.html: I am {{ hero }}  //I am false
+
+Note: You can also create the alias of the element:
+comp1.html: <app-comp1 [checkHero]="flag"></app-comp1>
+if used checkHero in comp1, then in comp2:
+comp2.ts: @Input('checkHero') hero: any;
+
+15. $event is the data bind and passed at the event
+
+16. Prettier: To format Angular VS code:
+install 'Prettier' via leftside menu of vscode(2nd last)
+also add:
+'.prettierrc' with 
+{
+  "singleQuote": true
+}
+in the main project folder
+NOTE: https://www.daptontechnologies.com/angular-prettier-husky/
+
+17. Directives are instruction in the DOM
+
+18. ngIf-else:
+<p *ngIf="para; else noserver">the server is created</p>
+<ng-template #noserver>
+  <p>
+    No server has created
+  </p>
+</ng-template>
+Note:'para' must be passed as true/false
+
+19. To take a random value:
+this.status = Math.random() > 0.5 ? 'online' : 'offline';
+
+20. ngStyle:
+<p [ngStyle]="{ 'background-color': 'green', 'max-width': '120px' }">
+  Server is : {{ status }}
+</p>
+or
+<p [ngStyle]="{ 'background-color': getColor(), 'max-width': '120px' }">
+where:
+getColor() {
+    return this.status === 'online' ? 'green' : 'red';
+  }
+
+21. JSON pipe:
+ servers = ['server11', 'server12'];
+{{ servers | json }}
+bcoz string interpolation convert array into string and 
+cant allow to push anything runtime via clicking button
+
+22. To install bootstrap:
+npm install --save bootstrap
+and the path should be:
+node_modules/bootstrap/dist/css/bootstrap.min.css
+also add in styles in .angular.json as:
+"styles": [
+              "node_modules/bootstrap/dist/css/bootstrap.css",
+              "src/styles.scss"
+            ],
+
+23. ng g c recipes --spec false:
+it will not add the spec.ts file as we dont want the testing file
+
+23. This model:
+export class Ingredient {
+  public name: string;
+  public amount: string;
+  constructor(name: string, amount: string) {
+  this.name = name,
+  this.amount=amount
+  }
+}
+can be written as:
+export class Ingredient {
+  constructor(public name: string,public amount: string) {}
+}
+
+24. @Input id used to make a property bindable from outside
+whilw @Output is used to make a property listenable from outside.
+@Output: to send from child comp to parent comp
+
+25. in comp.ts 
+@Component(
+encapsulation: ViewEncapsulation.None means the style u used for comp1 will go to comp2.
+encapsulation: ViewEncapsulation.Emulated: Each comp has its own styling, not impact other
+by default; emulated
+)
+
+26.  <input type="text" #serverNameInput>
+# is use to create a local reference of any tag  which can only be used inside template, not in ts,
+It works like ngModel like 2 way binding but only via template. Its like:
+ <input type="text" [(ngModel)]="serverNameInput">
+
+27. @ViewChild('serverContentInput', {static: true}) serverContentInput: ElementRef;
+If you DON'T access the selected element in ngOnInit (but anywhere else in your component), set static: false
+Note: This is a temporary adjustment which will NOT be required anymore once Angular 9 is released!
+The static: false is going to be the default fallback behaviour in Angular 9. 
+
+    <input type="text" #serverContentInput class="form-control" />
+ @ViewChild('serverContentInput', { static: false })  serverContentInput: ElementRef;
+  USE AS:       serverContent: this.serverContentInput.nativeElement.value
+
+28. 
+Constructor: calls first
+ngOnInit : After Constructor
+ngOnChanges(change: SimpleChanges): its the only hook that rcvs parameters
+ngAfterViewInit called after the content has been checked(ngAfterContentChecked)
+After ngAfterViewInit: you can access the value of the DOM, not after ngOnInit
+
+29. @ContentChild('contentParagraph', {static: true}) paragraph: ElementRef;
+true is same reason as in @ViewChild
+@ContentChild
+
+30. To pass something from child to parent:
+child
+cockpit.html:
+    <button class="btn btn-primary" (click)="onAddServer()">
+cockpit.ts:
+ @Output() serverCreated = new EventEmitter<{
+    serverName: string;
+    serverContent: string;
+ }>();
+
+ onAddServer() {
+    this.serverCreated.emit({
+      serverName: this.newServerName,
+      serverContent: this.newServerContent
+    });
+  }
+
+Parent:
+app,html:
+ <app-cockpit (serverCreated)="onServerAdded($event)"></app-cockpit>
+ serverElements = [{ name: 'Testserver', content: 'Just a test!' }];
+  onServerAdded(serverData: { serverName: string; serverContent: string }) {
+    this.serverElements.push({
+      name: serverData.serverName,
+      content: serverData.serverContent
+    });
+  }
+
+
+31. Providing Service in:
+app.module: same instance is availiable Application-wide
+app.comp: same instance is availiable for all comps but not for services
+local comp: for that comp and its childs
+
+In app.module.ts:
+providers: [AccountService]
+it will give the same instance of this service in whole app until it overwrites	
+
+32. @Injectable: used in the service where we want to inject something.. like another service
+we won't write it in the service which is getting injected
+
+33. To make routes:
+app.module.ts:
+import { Routes, RouterModule } from '@angular/router';
+const appRoutes: Routes = [
+  { path: '', component: HomeComponent },
+  { path: 'servers', component: ServersComponent },
+  { path: 'users', component: UsersComponent }
+];
+imports: [BrowserModule, FormsModule, RouterModule.forRoot(appRoutes)],
+
+app.comp.html:
+ <router-outlet></router-outlet>
+
+ 34. href vs routerLink:
+ <a href="/">Home</a>
+ <a href="/servers">Servers</a>
+ href will refresh the page once goes to other route while routerLink doesn't
+
+35. relative vs absolute path:
+ Relative path: without / in beggining
+ <a href="servers">Servers</a>
+ it will append 'servers' to your current path
+ Note: 'servers' = './servers'
+ Absolute: <a href="/servers">Servers</a>
+ here '/' always append the path to the route domain
+
+36. In above points, once we will change the tab, 
+it will go on next tab but also remain an instance in home page.
+To remove that:
+<ul class="nav nav-tabs">
+<li role="presentation" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+   <a routerLink="/">Home</a>
+</li>
+<li role="presentation" routerLinkActive="active">
+   <a routerLink="/servers">Servers</a>
+</li>
+</ul>
+
+37. this.router.navigate(['server']);
+Here we are giving relative path but it wont give error as navigate dont recognise 
+this path as relative but a normal path and load it without error.
+So..
+to give relative path:
+import { Router, ActivatedRoute } from '@angular/router';
+ constructor(
+    private route: ActivatedRoute
+  ) {}
+this.router.navigate(['servers'], { relativeTo: this.route });
+But now it will give error if made relative path is wrong
+
+38. users/id - treated as normal path
+users/:id - thinks id as a dynamic path
+
+39. ActivatedRoute: this object will give access to the id(or other) we injected in the route via using ':'
+ id: this.route.snapshot.params['id']
+
+40. 'snapshot' only works for the first time when we access any route:
+if we keep on changing the path like:
+<a [routerLink]="['/users', 10, 'Lana']">Load Lana(10)</a>
+then subscribe:
+ ngOnInit() {
+    this.user = {
+      id: this.route.snapshot.params['id'],
+      name: this.route.snapshot.params['name']
+    };
+    this.route.params.subscribe((params: Params) => {
+      this.user.id = params.id;
+      this.user.name = params.name;
+    });
+  }
+and now it will change the path as its working as an observable
+Note: Observables allow us to handle asynchronus tasks, its not of Angular but third party
+
+41. QUERY PARAMETERS: with (?)
+query params are not the part of URL while path param(:) is.
+query params are passed using Key: value while pathparams just need value.
+
+42. quearyParams and fragment:
+home.html:
+<button class="btn btn-primary" (click)="loadServer(1)">LOAD Server</button>
+home.ts:
+ loadServer(id: number) {
+    this.router.navigate(['/servers', id, 'edit'], {
+      queryParams: { allowEdit: '1' },
+      fragment: 'loading'
+    });
+  }
+Now after hitting the button, it will redirect you to 'servers' with path:
+http://localhost:4200/servers/1/edit?allowEdit=1#loading
+
+43. To access queryParams and fragment:
+ console.log('fragment:', this.route.snapshot.fragment);
+ console.log('queryParams:', this.route.snapshot.queryParams);
+ Note: if we getting a number from string  then we need to convert it as by default, in path, everything is string
+
+ 44. For repeated routes:
+  { path: 'servers', component: ServersComponent },
+  { path: 'servers/:id/edit', component: EditServerComponent },
+  { path: 'servers/:id', component: ServerComponent },
+ can be written as:
+ {
+    path: 'servers', component: ServersComponent,
+    children: [
+      { path: ':id/edit', component: EditServerComponent },
+      { path: ':id', component: ServerComponent }
+    ]
+  },
+  Also replace route template inside with :
+ <router-outlet></router-outlet>
+
+ 44. queryParamsHandling: 'preserve' -: 
+ If on server comp, we have path:
+localhost:4200/servers/1?allowEdit=0
+ and after clicking edit button:
+localhost:4200/servers/1/edit
+So to preserve the old original path:
+onEdit() {
+    this.router.navigate(['edit'], {
+      relativeTo: this.route,
+      queryParamsHandling: 'preserve'
+    });
+  }
+ Now path on edit page:
+ http://localhost:4200/servers/1/edit?allowEdit=0
+
+ 45. PAGE NOT FOUND:
+ create 'page-not-found' comp:
+ app.module.ts: at last route:
+  { path: 'not-found', component: PageNotFoundComponent },
+  { path: '**', redirectTo: '/not-found' }
+ '**' refers to all strings.
+
+ 46. Outsourcing the Route config(via app-routing.module.ts):
+ app-routing.module.ts 
+ const appRoutes: Routes = [
+  { path: '', component: HomeComponent },
+  {
+    path: 'servers',
+    component: ServersComponent,
+    children: [
+      { path: ':id/edit', component: EditServerComponent },
+      { path: ':id', component: ServerComponent }
+    ]
+  },
+  {
+    path: 'users',
+    component: UsersComponent,
+    children: [{ path: ':id/:name', component: UserComponent }]
+  },
+  { path: 'not-found', component: PageNotFoundComponent },
+  { path: '**', redirectTo: '/not-found' }
+];
+
+@NgModule({
+  imports: [RouterModule.forRoot(appRoutes)],
+  exports: [RouterModule]
+})
+export class AppRoutingModule {}
+
+app.module.ts:
+delete the unnecessary code and add the module in 'imports':
+ imports: [BrowserModule, FormsModule, AppRoutingModule],
+
+47.Gaurds: running some code before the comp loaded, so that we can activate gaurd and
+check if we want to take user to that page, otherwise navigate to HOME:
+auth-gaurd.service.ts:
+import {
+  CanActivate,
+  ActivatedRouteSnapshot,
+  RouterStateSnapshot,
+  Router
+} from '@angular/router';
+import { Observable } from 'rxjs';
+import { AuthService } from './auth.service';
+
+export class AuthGaurd implements CanActivate {
+  constructor(private authService: AuthService, private router: Router) {}
+
+  canActivate(
+    route: ActivatedRouteSnapshot,
+    state: RouterStateSnapshot
+  ): Observable<boolean> | Promise<boolean> | boolean {
+    return this.authService.isAuthenticated().then((authenticated: boolean) => {
+      if (authenticated) {
+        return true;
+      } else {
+        this.router.navigate(['/']);
+      }
+    });
+  }
+}
+
+auth.service.ts: (fake login for now):
+export class AuthService {
+  loggedIn = false;
+  isAuthenticated() {
+    const promise = new Promise((resolve, reject) => {
+      setTimeout(() => {
+        resolve(this.loggedIn);
+      }, 800);
+    });
+    return promise;
+  }
+
+  login() {
+    this.loggedIn = true;
+  }
+
+  logout() {
+    this.loggedIn = false;
+  }
+}
+
+app.module.ts:
+providers: [ServersService, AuthService, AuthGaurd],
+
+app-routing:
+path: 'servers',
+canActivate: [AuthGaurd],
+component: ServersComponent,
+
+Note: canActivate plays a vital role in it.
+
+48. canActivateChild:
+If we want to load the parent component(like server) but not his children:
+app-routing:
+// canActivate: [AuthGaurd],
+canActivateChild: [AuthGaurd],
+
+auth-gaurd:
+canActivateChild(
+    route: ActivatedRouteSnapshot,
+    state: RouterStateSnapshot
+  ): Observable<boolean> | Promise<boolean> | boolean {
+    return this.canActivate(route, state);
+  }
+
+49. canDeactivate:
+use to keep the user on the current page if accidentally going away
+eg: If use this on 'edit-server' component that user should get a confirm box if he change something,
+and leaves the page without saving those changes.
+can-deactivate-guard.service.ts:
+import { Observable } from 'rxjs/Observable';
+import {
+  CanDeactivate,
+  ActivatedRouteSnapshot,
+  RouterStateSnapshot
+} from '@angular/router';
+export interface CanComponentDeactivate {
+  canDeactivate: () => Observable<boolean> | Promise<boolean> | boolean;
+}
+export class CanDeactivateGuard
+  implements CanDeactivate<CanComponentDeactivate> {
+  canDeactivate(
+    component: CanComponentDeactivate,
+    currentRoute: ActivatedRouteSnapshot,
+    currentState: RouterStateSnapshot,
+    nextState?: RouterStateSnapshot
+  ): Observable<boolean> | Promise<boolean> | boolean {
+    return component.canDeactivate();
+  }
+}
+
+edit-server.comp.ts:
+changeSaved = false;
+onUpdateServer() {
+    this.serversService.updateServer(this.server.id, {
+      name: this.serverName,
+      status: this.serverStatus
+    });
+    this.changeSaved = true;
+    this.router.navigate(['../'], { relativeTo: this.route });
+  }
+
+  canDeactivate(): Observable<boolean> | Promise<boolean> | boolean {
+    if (!this.allowEdit) {
+      return true;
+    }
+    if (
+      (this.serverName !== this.server.name ||
+        this.serverStatus !== this.server.status) &&
+      !this.changeSaved
+    ) {
+      return confirm('Do you want to discard the changes?');
+    } else {
+      return true;
+    }
+  }
+
+  app-routing.module.ts:
+  {
+        path: ':id/edit',
+        component: EditServerComponent,
+        canDeactivate: [CanDeactivateGuard]
+  }
+
+ app.module.ts:
+ providers: [ServersService, AuthService, AuthGuard, CanDeactivateGuard],
+
+
+50. Passing static data with Route:
+app.routing:
+ { path: 'not-found', component: ErrorPageComponent, data: { message: 'Page Not Found' }},
+ { path: '**', redirectTo: '/not-found' }
+
+error-message.comp.ts:
+this.errorMesaage = this.route.snapshot.data['message'];
+
+51. RESOLVER: Resolve dynamic data with the resolve guard:
+server-resolver.service.ts:
+import { Injectable } from '@angular/core';
+import {
+  Resolve,
+  RouterStateSnapshot,
+  ActivatedRouteSnapshot
+} from '@angular/router';
+import { ServersService } from '../servers.service';
+import { Observable } from 'rxjs';
+
+interface Server {
+  id: number;
+  name: string;
+  status: string;
+}
+
+@Injectable({ providedIn: 'root' })
+export class ServerResolver implements Resolve<Server> {
+  constructor(private serverService: ServersService) {}
+
+  resolve(
+    route: ActivatedRouteSnapshot,
+    state: RouterStateSnapshot
+  ): Observable<Server> | Promise<Server> | Server {
+    return this.serverService.getServer(+route.params['id']);
+  }
+}
+
+app.routing:
+ {
+      path: ':id',
+      component: ServerComponent,
+      resolve: { server: ServerResolver }
+ },
+
+server.comp.ys:
+const id = +this.route.snapshot.params['id'];
+    this.server = this.serversService.getServer(id);
+    this.route.params.subscribe((params: Params) => {
+      this.server = this.serversService.getServer(+params['id']);
+    });
+can be replaced by:
+this.route.data.subscribe((data: Data) => {
+      this.server = data['server'];
+    });
+
+
+52. Use of # in routes:
+If servers frequntly changed then # will define that what written before this will be considered as server name
+after that will be handled by client i.e Angular
+eg: localhost:4200/#/users
+app.routing:
+  imports: [RouterModule.forRoot(appRoutes, { useHash: true })],
+
+____________________________________________________________________________________________________________________________
+______________________________________________________________________________________________________________________________
+
+We have 2 types of Forms:
+1. template driven
+2. Reactive form
+
+1. Form:
+mention this in your form:
+html:
+<form (ngSubmit)="submit(f)" #f="ngForm">
+  ngModel name="email"
+.ts:
+ submit(form: NgForm) {
+    console.log(form);
+  }
+
+2. dirty=false : when we did no change in form
+   touched=false: when we didn't touch any formcontrol
+
+3. Accces form data via @ViewChild:
+html:
+  <form (ngSubmit)="submit(f)" #f="ngForm">
+.ts:
+  @ViewChild('f', { static: false }) signUpForm: NgForm;
+  console.log(this.signUpForm);
+
+4.  required email: these validators can be passed in input field
+if submit without fulfill these validation, you'll get valid=false
+other imp validators:
+min, max, minLength, maxLength, Pattern, nullValidator, compse, composeAsync
+
+5. Enable submit only when user enter valid values:
+    <button class="btn btn-primary" type="submit" [disabled]="!f.valid">
+
+6. Do border red if user leave input box without enter the valid value:
+.css:
+input.ng-invalid.ng-touched {
+  border: 1px solid red;
+}
+
+7. Show validation error msgs:
+    <input type="email" id="email" class="form-control" ngModel name="email" required email #email="ngModel" />
+    <p class="help-block" *ngIf="!email.valid && email.touched">
+Note: #email="ngModel" : for reference of that input box
+
+8. To give default value to the select:
+    <select id="secret" class="form-control" [ngModel]="defaultQuestion" name="secret">
+    defaultQuestion = 'pet';
+
+9. Group controls validation:
+   <div id="user-data" ngModelGroup="userData" #userData="ngModelGroup">
+
+   <span class="help-block" *ngIf="!userData.valid && userData.touched">User Data is invalid</span>
+
+10. setValue vs patchValue:
+In setValue, we need to set each and every value of the form that can cause overwrite already entered values,
+while patchValue allow one value also.
+ suggestUserName() {
+    const suggestedName = 'Superuser';
+    this.signUpForm.form.patchValue({ userData: { username: suggestedName } });
+  }
+
+11. Accessing form data:
+.ts:
+ user = {
+    username: '',
+    email: '',
+    secretQuestion: '',
+    gender: ''
+  };
+  submitted = false;
+  submit(form: NgForm) {
+    // console.log(form);
+    // console.log(this.signUpForm);
+    this.submitted = true;
+    this.user.username = this.signUpForm.value.userData.username;
+    this.user.email = this.signUpForm.value.userData.email;
+    this.user.secretQuestion = this.signUpForm.value.secret;
+    this.user.gender = this.signUpForm.value.gender;
+  }
+
+.html:
+<div class="row" *ngIf="submitted">
+    <div class="col-xs-12">
+      <h3>Your Data</h3>
+      <p>UserName: {{ user.username }}</p>
+      <p>Mail: {{ user.email }}</p>
+      <p>Secret Question: Your first {{ user.secretQuestion }}</p>
+      <p>Gender: {{ user.gender }}</p>
+    </div>
+  </div>
+
+12. To reset a form:
+this.signUpForm.reset();
+
+__________________________________________________________________________________________
+
+13. Reactive Form:
+Instead of FormsMudule, here we need: ReactiveFormsModule
+imports: [BrowserModule, ReactiveFormsModule],
+
+14. To create a form:
+html:
+ genders = ['male', 'female'];
+ signupForm: FormsModule;
+  ngOnInit() {
+    this.signupForm = new FormGroup({
+      username: new FormControl(null),
+      email: new FormControl(null),
+      gender: new FormControl('male')
+    });
+  }
+
+15. Sync ts with html:
+  <form [formGroup]="signupForm">
+ <input....formControlName="username"
+ <input.... formControlName="email"..
+
+16. To apply validation:
+  username: new FormControl(null, Validators.required),
+  email: new FormControl(null, [Validators.required, Validators.email]),
+
+17. To show validation msg on html:
+<span *ngIf="
+              !signupForm.get('username').valid &&
+              signupForm.get('username').touched
+            "
+            class="help-block">
+     Please enter a valid UserName
+</span>
+
+18. To add control on button:
+.ts:
+  hobbies: new FormArray([])
+  onAddHobby() {
+    const control = new FormControl(null, Validators.required);
+    (<FormArray>this.signupForm.get('hobbies')).push(control);
+  }
+  getControls() {
+    return (<FormArray>this.signupForm.get('hobbies')).controls;
+  }
+
+.html:
+    <div formArrayName="hobbies">
+          <h4>Your Hobbies:</h4>
+          <button class="btn btn-default" type="button" (click)="onAddHobby()">
+            Add Hobby
+          </button>
+          <div
+            class="form-group"
+            *ngFor="let hobbyControl of getControls(); let i = index"
+          >
+            <input type="text" class="form-control" [formControlName]="i" />
+          </div>
+    </div>
+
+19. Custom Validators: 
+eg: passing 2 names, if user will enter those names, input will be imvalid.
+  forbiddenUsernames = ['Anna', 'Jane'];
+  username: new FormControl(null, [Validators.required, this.forbiddenNames.bind(this)]),
+  forbiddenNames(control: FormControl): { [s: string]: boolean } {
+    if (this.forbiddenUsernames.indexOf(control.value) !== -1) {
+      return { nameIsForbidden: true };
+    }
+    return null;
+  }
+
+20. To get error msgs using custom validators(nameIsForbidden) and default validators(required):
+ <span *ngIf="
+              !signupForm.get('username').valid &&
+              signupForm.get('username').touched
+            "
+            class="help-block"
+          >
+    <span *ngIf="signupForm.get('username').errors['nameIsForbidden']">
+      This name is invalid
+    </span>
+    <span *ngIf="signupForm.get('username').errors['required']">
+    This field is required
+    </span>
+ </span>
+
+
+21. valueChanges:
+this.signupForm.valueChanges.subscribe(value => console.log(value));
+
+22. statusChanges: Show wheather the whole form is valid or invalid-
+this.signupForm.statusChanges.subscribe(value => console.log(value));
+
+________________________________________________________________________________________________
+
+23. Observable:
+a. params is am onservable
+b. Observer subscribes the observable to use it
+c. observable isn't a feature of js or ts but its inside package 'rxjs'
+d. Some observable just works once like HttpResponse and some other that keeps on emitting values.
+e. We need to unSubscribe the subscribed observable to stop memory leaks ie more than 1 obs will work at the same time.
+
+24. Observable eg: Count will go on from 0..
+  firstObsSubscription: Subscription;
+  ngOnInit() {
+    this.firstObsSubscription = interval(1000).subscribe(count => {
+      console.log(count);
+    });
+  }
+  ngOnDestroy() {
+    this.firstObsSubscription.unsubscribe();
+  }
+
+25. Custom Observable:
+ngOnInit() {
+    // this.firstObsSubscription = interval(1000).subscribe(count => {
+    //   console.log(count);
+    // });
+    const customIntervalObservable = Observable.create(observer => {
+      let count = 0;
+      setInterval(() => {
+        observer.next(count);
+        count++;
+      }, 1000);
+    });
+
+    this.firstObsSubscription = customIntervalObservable.subscribe(data => {
+      console.log(data);
+    });
+  }
+
+26. To catch 'error' if count>3 :
+  ngOnInit() {
+    const customIntervalObservable = Observable.create(observer => {
+      let count = 0;
+      setInterval(() => {
+        observer.next(count);
+        if (count > 3) {
+          observer.error(new Error('Counter is greater  than 3'));
+        }
+        count++;
+      }, 1000);
+    });
+
+    this.firstObsSubscription = customIntervalObservable.subscribe(
+      data => {
+        console.log(data);
+      },
+      error => {
+        console.log(error);
+        alert(error.message);
+      }
+    );
+  }
+
+27. To 'complete' observable at a particular condition: eg at count=2
+ ngOnInit() {
+    const customIntervalObservable = Observable.create(observer => {
+      let count = 0;
+      setInterval(() => {
+        observer.next(count);
+        if (count === 2) {
+          observer.complete();
+        }
+        if (count > 3) {
+          observer.error(new Error('Counter is greater  than 3'));
+        }
+        count++;
+      }, 1000);
+    });
+
+    this.firstObsSubscription = customIntervalObservable.subscribe(
+      data => {
+        console.log(data);
+      },
+      error => {
+        console.log(error);
+        alert(error.message);
+      },
+      () => {
+        console.log('Completed');
+      }
+    );
+  }
+
+28. Operators (in observables):
+data is used via Subscription but we can use operators in between to any evalaution on data before subscribing it.
+i. 'map': eg: adding 'Round:' before the data gets printed
+this.firstObsSubscription = customIntervalObservable
+      .pipe(
+        map((data: number) => {
+          return 'Round:' + (data + 1);
+        })
+      )
+      .subscribe(
+ii. 'filter': print only those which are greater than 0, here it will start as: Round: 2
+this.firstObsSubscription = customIntervalObservable
+      .pipe(
+        filter(data => {
+          return data > 0;
+        }),
+        map((data: number) => {
+          return 'Round:' + (data + 1);
+        })
+      )
+      .subscribe(
+
+29. Subject: A better way of EventEmitter-
+Its a way of cross component communuication using service.
+eg: I want to show Activated on Parent when click a button on Child:
+---- EVENTEMITTER-----
+user.service(child):
+    activatedEmitter = new EventEmitter<boolean>();
+
+user.html(child):
+  <button class="btn btn-primary" (click)="onActivate()">Activate</button>
+
+user.comp(child):
+ onActivate() {
+    this.userService.activatedEmitter.emit(true);
+  }
+
+app.comp(Parent):
+  ngOnInit() {
+    this.userService.activatedEmitter.subscribe(didActivate => {
+      this.userActivated = didActivate;
+    });
+  }
+
+app.html(Parent):
+  <p *ngIf="userActivated">Activated!</p>
+
+
+---- SUBJECT ----
+i. Replace 'EventEmitter' with 'Subject' (of rxjs):
+  activatedEmitter = new Subject<boolean>();
+
+ii. Replace 'emit' with 'next':
+  this.userService.activatedEmitter.next(true);
+
+Note: 'Subject' can be actively call by using next() while EventEmitter is passive
+We should unsubscribe Subject.
+
+______________________________________________________________________________________
+
+30. ----- MODULES -------
+i. AppModule combines AppComponent, Other Comp, Directive, Custom pipes and Services
+ii. ANgular analizes NgModules to understand your application and its features
+iii. An app require atleast one module(AppModule)
+iv. Core Angular features are included in Angular Modules(eg FormsModule) to load them when needed
+v. Features cant be seen without including a module.
+
+31. @NgModule in AppModule has: (CHAPTER-22)
+declarations: all the form related directive supported by Angular
+imports: eg FormsModule so that we dont need to import FormsModule in each module individually
+providers: Any service which you wanna provide application wide, need to be mentioned here
+          or
+go to the service of a comp and write: @Injectable({ providedIn: 'root' })
+bootstrap: [AppComponent]- where you wanna provide bootstrap
+
+32. We use ApproutingModule in the imports section of AppModule, that contains routing. 
+We can also create routes inside AppModule as well but to clean code we do that.
+To do that: in app-routing.module, we need to export it:
+@NgModule({
+  exports:[RouterModule]
+})
+Note: In exports array we mention those comps that we wanna use in other modules as well.
+
+33. 
+i. To use directives like *ngIf and *ngFor, we use BrowserModule in appModule, while
+to use those in other, import commonModule
+
+ii. We dont need to declare and import Services in other module as its and exception.
+Otherwise we need to import and declare directive, pipe or comp where we wanna use them.
+
+______________________________________________________________________________________________
+
+34. Pipes (Chapter - 17)
+Ref: https://angular.io/api?query=pipe
+Use to transform data like:
+in .ts: username='Max'
+.html: {{  username }}
+Now to show it in uppercase:
+{{ username | uppercase }}
+
+35. Parametrized Pipe:
+  {{ server.started | date }}             O/P: Aug 9, 1920
+  {{ server.started | date: 'fullDate' }}     O/P: Monday, August 9, 1920
+
+36. Chaining multiple pipes: Correct order must be there:
+{{ server.started | date: 'fullDate' | uppercase }}     o/p: MONDAY, AUGUST 9, 1920
+{{ server.started | uppercase | date: 'fullDate'  }}    ERROR
+
+37. Creating Custom Pipe:
+shorten.pipe.ts: (in app)
+import { PipeTransform, Pipe } from '@angular/core';
+@Pipe({
+  name: 'shorten'
+})
+export class ShortenPipe implements PipeTransform {
+  transform(value: any) {
+    return value.substr(0, 10);
+  }
+}
+
+app.module.ts:
+  declarations: [AppComponent, ShortenPipe],
+
+app.html:
+ <strong>{{ server.name | shorten }}</strong>     o/p: Show only 10 chars
+
+ 38. Parametrized Custom Pipe:
+ transform(value: any, limit: number) {
+    return value.substr(0, limit);
+  }
+
+ <strong>{{ server.name | shorten: 3 }}</strong> |
+
+ 39. To generate pipe via CLI:
+ ng g p filter:
+ eg: Enter status in textbox and you'll get only those:
+ .html:
+   <input type="text" [(ngModel)]="filteredStatus" />
+  <ul class="list-group">
+        <li
+          class="list-group-item"
+          *ngFor="let server of servers | filter: filteredStatus:'status'"
+        >
+          <span class="badge">
+            {{ server.status }}
+          </span>
+          <strong>{{ server.name | shorten: 3 }}</strong> |
+          {{ server.instanceType | uppercase }} |
+          {{ server.started | date: 'fullDate' | uppercase }}
+        </li>
+      </ul>
+
+.ts:   filteredStatus = '';
+
+filter.pipe.ts: 
+import { Pipe, PipeTransform } from '@angular/core';
+@Pipe({
+  name: 'filter'
+})
+export class FilterPipe implements PipeTransform {
+  transform(value: any, filterString: string, propName: string): any {
+    if (value.length === 0 || filterString === '') {
+      return value;
+    }
+    const resultArray = [];
+    for (const item of value) {
+      if (item[propName] === filterString) {
+        resultArray.push(item);
+      }
+    }
+    return resultArray;
+  }
+}
+
+
+40. async pipe: 
+The async pipe subscribes to an Observable or Promise and returns the latest value it has emitted
+ It helps to show data if it comes after sometime:
+ .ts:
+ appStatus = new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve('stable');
+    }, 2000);
+  });
+ 
+ .html:
+  <h3>Status: {{ appStatus | async }}</h3>       Status: stable (after 2 secs)
+  BUT IF DON'T USE ASYNC:
+    <h3>Status: {{ appStatus }}</h3>       Status: [object Promise]
+
+______________________________________________________________________________________________________________
+
+41. HTTP REQUESTS:
+Http verb: GET, POST, PUT..
+URL(endpoint): /posts/1
+Headers(Metadata):{"Content-Type":"application/json"}
+Body: {title:"New Post"}  (for POST, PUT, PATCH )
+
+_________________________________________________________________________________________________________
+
+42. ng Animations:
+npm install --save @angular/animations 
+eg: to switch between 2 states:
+.ts:
+ @Component({
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  animations: [
+    trigger('divState', [
+      state(
+        'normal',
+        style({
+          'background-color': 'red',
+          transform: 'translateX(0)'
+        })
+      ),
+      state(
+        'highlighted',
+        style({
+          'background-color': 'blue',
+          transform: 'translateX(100px)'
+        })
+      ),
+      transition('normal=>highlighted', animate(300)),
+      transition('highlighted=>normal', animate(300))             // or       transition('normal<=>highlighted', animate(300))
+    ])
+  ]
+})
+
+  state = 'normal';
+onAnimate() {
+    this.state === 'normal'
+      ? (this.state = 'highlighted')
+      : (this.state = 'normal');
+  }
+
+.html:
+      <button class="btn btn-primary" (click)="onAnimate()">Animate!</button>
+      <div [@divState]="state" style="height:100px; width:100px;"></div>
+
+
+43. To add item and remove item from the list: (USING VOID)
+eg: when adding, it'll come from left to right and vice-versa
+.ts
+trigger('list1', [
+      state(
+        'in',
+        style({
+          opacity: 1,
+          transform: 'translateX(0)'
+        })
+      ),
+      transition('void => *', [
+        style({
+          opacity: 0,
+          transform: 'translate(-100px)'
+        }),
+        animate(300)
+      ]),
+      transition('* => void', [
+        animate(
+          300,
+          style({
+            opacity: 0,
+            transform: 'translate(100px)'
+          })
+        )
+      ])
+    ])
+
+.html:
+    <li
+          class="list-group-item"
+          *ngFor="let item of list"
+          (click)="onDelete(item)"
+          [@list1]
+        >
+          {{ item }}
+        </li>
+
+44. Doing same as above list via keyframes to control the flow:
+trigger('list2', [
+      state(
+        'in',
+        style({
+          opacity: 1,
+          transform: 'translateX(0)'
+        })
+      ),
+      transition('void => *', [
+        animate(
+          1000,
+          keyframes([
+            style({
+              opacity: 0,
+              transform: 'translate(-100px)',
+              offset: 0
+            }),
+            style({
+              opacity: 0.5,
+              transform: 'translate(-50px)',
+              offset: 0.3
+            }),
+            style({
+              opacity: 1,
+              transform: 'translate(-20px)',
+              offset: 0.8
+            }),
+            style({
+              opacity: 1,
+              transform: 'translate(0px)',
+              offset: 1
+            })
+          ])
+        )
+      ]),
+      transition('* => void', [
+        animate(
+          300,
+          style({
+            opacity: 0,
+            transform: 'translate(100px)'
+          })
+        )
+      ])
+    ])
+
+
+45. Group transition: to show them parallely:
+   transition('* => void', [
+        group([
+          animate(
+            1600,
+            style({
+              color: 'white',
+              background: 'red'
+            })
+          ),
+          animate(
+            1600,
+            style({
+              opacity: 0,
+              transform: 'translate(100px)'
+            })
+          )
+        ])
+      ])
+
+46. Animation's callback:
+we can use the properties if needed:
+.html:
+    [@divState]="state"
+        (@divState.start)="animationStarted($event)"
+        (@divState.done)="animationEnded($event)"
+        style="height:100px; width:100px;"
+
+.ts:
+  animationStarted(event) {
+    console.log(event);
+  }
+
+  animationEnded(event) {
+    console.log(event);
+  }
+
+_____________________________________________________________________________________
+
+47. TYPESCRIPT:
+using 'let' in typescript, we can declare the type of variable and assigning another type of value inside it will give error:
+let a =2
+a="nikhil"  error
+we can assign different type of values using 'var' in js though 
+var a=2
+a="nikhil"              //allowed
+
+48. in ts, by default a variable is public
+
+49. Once we create ts file, we compile it via:
+tsc filename.ts
+it'll create a .js file, which can be run by:
+node filename.js
+NOTE: to see errors, directly write:
+tsc filename
+
+50. To create interfaces:
+interface User {
+  username: string;
+  password: string;
+  confirmPassword?: string; // Optional property => Does not have to be implemented
+}
+let user: User;
+
+Now user will accept only given values.
+user = { username: 'max', password: 'supersecret' };
+
+51. To declare function inside an interface:
+interface CanDrive {
+  accelerate(speed: number): void;
+}
+Now it'll take func def as:
+let car: CanDrive = {
+  accelerate: function(speed: number) {
+    // ...
+  }
+};
+
+52. GENERICS:
+eg: define an array which can only take numbers:
+let numberArray: Array<number>;
+numberArray = [1,2,3];
+numberArray = ['hey'];      //error
+
+53. MDOULES:
+We export a class, interface, variable, ... by adding 'export' keyword in front of it-
+export class ExportedClass {
+    // This class is exported
+}
+
+____________________________________________________________________________
+
+54. ENVIRONMENT.TS:
+Whatever we passed here as a key:value, that is accessible anywhere in Project just by accessing this file.
+
+55. ng build --prod
+it compiles your ts code into js
+it converts your ts templates into js instructions
+
+In our project, we wrote:
+"build": "ng build --prod=true --aot=true --outputHashing=all",
+and we run:
+npm run build
+to create bundle.
+_______________________________________________________________________________________________________
+
+56. While debugging, if you wannna do any local change in any file,
+Go to Sources and in left, select file system and Add folder, then allow after selecting that
+
+57. Dynamic Comp:
+That loads programatically using *ngIf(or earlier by Dynamic comp loader)
+
+58. ENTRYCOMPONENTS:
+to tell angular to be prepared for the creation of any comp, here we'll mention only those comps which are created 
+1. without any selector or 
+2. route config being used.
+In Angular 9 or higher, you omit to use entrycomponent
+
+DECLARATIONS: Comps, pipe, directives
+imports: modules
+exports: the module we want to import, that module should be in the exports of that module
+providers: services, resolver 
