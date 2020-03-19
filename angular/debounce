@@ -1,0 +1,20 @@
+DEBOUNCE:
+function debounce(fn, interval) {
+  let timer;
+  return function debounced() {
+    clearTimeout(timer);
+    const args = arguments;
+    const that = this;
+    timer = setTimeout(function callOriginalFn() {
+      fn.apply(that, args);
+    }, interval);
+  };
+}
+
+debouncedAlertCount = debounce(this.allAlertCount, 2000);     // write this above constructor
+
+ this.appService.connection.on('ReceiveMessage', () => {
+      this.debouncedAlertCount();
+    });
+
+NOTE: Now allAlertCount() will take one call in 2 secs
