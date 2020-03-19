@@ -643,6 +643,45 @@ john Doe
 
 NOTE: apply needs array[] to pass parameters
 
+ANOTHER EXAMPLE:
+var john = {
+    name: 'John',
+    presentation: function(style, timeOfDay) {
+        if (style === 'formal') {
+            console.log(timeOfDay + ' I am ' +  this.name);
+        } else if (style === 'friendly') {
+            console.log('Hey! I am ' +  this.name + ' '+ timeOfDay);
+        }
+    }
+};
+
+var emily = {
+    name: 'Emily',
+    age: 35,
+    job: 'designer'
+};
+
+john.presentation('formal', 'morning');
+// morning I am John
+
+john.presentation.call(emily, 'friendly', 'afternoon');
+// Hey! I am Emily afternoon
+
+john.presentation.apply(emily, ['friendly', 'afternoon']);
+// Hey! I am Emily afternoon
+
+var johnFriendly = john.presentation.bind(john, 'friendly');
+
+johnFriendly('morning');
+// Hey! I am John morning
+
+johnFriendly('night');
+// Hey! I am John morning night
+
+var emilyFormal = john.presentation.bind(emily, 'formal');
+emilyFormal('afternoon');
+// afternoon I am Emily
+
 
 39. FUNC BORROWING:
 var person= {
@@ -1000,3 +1039,271 @@ b.__proto__
 {constructor: ƒ}
 
 NOW: b.__proto__ === a.prototype
+
+_________________________________________________________________________________________________________________________________________________________
+
+COMPLETE FUNDAMENTALS:
+1. 
+inline js:
+ 	<script>
+    	console.log("hello World");
+    </script>
+
+external js:
+ 	<script src="script.js">
+    </script>
+
+2. Type Coercion: converting one datatype to another
+   Variable mutation: changing the type of var by assigning diff type of data into it.
+
+3. falsy values: undefined, null, 0, '', NaN
+var a
+if(a){console.log('a is defined')} else{ console.log('a is not defined')}
+a is not defined
+a=''
+if(a){console.log('a is defined')} else{ console.log('a is not defined')}
+a is not defined
+a=2
+if(a){console.log('a is defined')} else{ console.log('a is not defined')}
+a is defined
+
+4.  Function declaration
+function whatDoYouDo(job, firstName) {}
+
+	Function expression
+var whatDoYouDo = function(job, firstName) {}
+
+Function expression produces immediate results while declarations dont
+
+5. Array: if value is not present in the array, the index is -1
+a=[1,2,3,4]
+a.indexOf(2)			// 1
+a.indexOf(5)			// -1
+
+6. Execution Context: A box or a container which stores variables and in which a piece of our code is evaluated and executed
+Global Execution Context: 
+a. Code thts not inside any func
+b. Associated with the global obj
+c. in browser, its window obj ie a === window.a
+
+7. HOISTING:
+For func, hoisting only works for functions declarations, not for func expressions
+calculateAge(1965);					// WORKS
+
+function calculateAge(year) {
+    console.log(2016 - year);
+}
+
+retirement(1956);					// ERROR
+var retirement = function(year) {
+    console.log(65 - (2016 - year));
+}
+
+8. THIS:
+when a default a func call happens, then the default obj is window obj
+console.log(this);							// window						
+
+calculateAge(1985);							
+
+function calculateAge(year) {
+    console.log(2016 - year);				// 31
+    console.log(this);						// Window
+}
+
+var john = {
+    name: 'John',
+    yearOfBirth: 1990,
+    calculateAge: function() {
+        console.log(this);							// {name: "John", yearOfBirth: 1990, calculateAge: ƒ}
+        console.log(2016 - this.yearOfBirth);		// 26
+        
+        function innerFunction() {
+            console.log(this);						// Window
+        }
+        innerFunction();
+    }
+}
+
+john.calculateAge();
+
+
+FUNC BORROWING:
+var mike = {
+    name: 'Mike',
+    yearOfBirth: 1984
+};
+
+
+mike.calculateAge = john.calculateAge;
+mike.calculateAge();							// 32
+												// Window
+
+
+9. DOM: Document Object Model
+Structured representation on an HTML docs
+The dom is used to connect webpages to scripts like JS.
+For each HTML box, there is an obj in the DOM that we can access and interact with.
+The object that gives us access to the DOM is the 'document' object 
+
+10. innerHTML vs textContent:
+innerHTML can execute the styling as well
+document.querySelector('#current-0').innerHTML='<em>' + dice + '</em>';				//	works
+document.querySelector('#current-0').textContent='<em>' + dice + '</em>';			// not work and shows tags instead
+
+11. To hide a dom object:
+document.querySelector('.dice').style.display='none';
+
+12. PROTOTYPE: 
+js is a prototype base lang means inheritance works here by using prototype
+every js obj has prototype property
+if we creatan object's blueprint like Person{name, class, address} then
+person's prototype is not for person but the instance of person which will use it like John
+Other words: Person's prototype property is the prototype for John
+Even Person(or any other) object that we create, is an instance of the OBJECT CONSTRUCTOR that has predefined funcs in its prototype property 
+When a certain method or property is called, the search starts in the object itself and is not found, goes to the object's prototype and so on.
+So this is the prototype chain and null is the final link in this chain that has no prototype
+In prototype property of an object, we have those property and methods that we want to inherit
+eg:
+var person =  function(name, age){
+    this.name = name;
+    this.age = age;
+    this.calculateAge = function(){
+        console.log(50 - this.age);
+    }
+}
+var john = new person('jane', '12');
+john.calculateAge();					//38
+
+Using prototype property, we can use it like:
+var person =  function(name, age){
+    this.name = name;
+    this.age = age;
+}
+
+person.prototype.calculateAge = function(){
+        console.log(50 - this.age);
+    }
+
+var john = new person('jane', '12');
+john.calculateAge();
+NOTE1: here 'person.prototype' and after expanding john's __proto__ property, you will get the same things( like calculateAge() and lastname)
+i.e john.__proto__ === person.prototype
+NOTE2: person.prototype.lastname='Smith'
+THEN:
+john.hasOwnProperty('name')					// true
+john.hasOwnProperty('lastname')				// false
+john instanceof Person 						// true
+
+
+13. Object.create vs func constructor:
+Object.create builts an obj that inherits directly from the one that we passed into the 1st argument
+while func cons inherits from the object's prototype property
+Object.create is better the func cons as it allows us to directly specify that which object should have cons and
+also help to work in complex inheritance structure
+var person={
+calculateAge: function() {
+    console.log(50 - this.age);			
+}
+}
+
+var john = Object.create(person);
+console.log(john);						// {}
+
+var jane = Object.create(person, {
+    name: { value: 'Jane'},
+    age: { value : 20}
+})
+
+console.log(jane);						// {name: "Jane", age: 20}				
+console.log(jane.calculateAge())		// 30
+
+
+14. PRIMITIVE VS OBJECT:
+PRIMITIVE:
+Each var holds its own copy of the own data and doesnot refer anything
+var a=23;
+var b =a;
+a =46;
+console.log(a);				// 46
+console.log(b);				// 23
+
+OBJECT:
+Refer and change:
+var obj1 = {
+    name: 'john',
+    age: 20
+}
+
+var obj2 = obj1;
+obj1.age=22;
+console.log(obj1.age);			// 22
+console.log(obj2.age);			// 22
+
+NOTE:
+If we pass a primitive and an object's property inside a func and change, 
+then primitive doesn't change but object's prop does due to reference.
+
+
+15. First class Functions:
+A func is an instance of the Object type so a func behaves like any other obj
+ Passing func as arguments:
+ a1=[10,20,30,40,50];
+
+function arrayCalc(arr,fn){
+var a2 = [];
+    for(var i=0; i<arr.length; i++) {
+        a2.push(fn(arr[i]));
+    }
+    return a2;
+}
+
+function findAge(el) {
+    return 100-el;
+}
+
+var ages = arrayCalc(a1, findAge);
+console.log(ages);
+O/P: [90, 80, 70, 60, 50]
+
+
+16. Functions returning func:
+function jobType(job) {
+    if(job === 'teacher') {
+        return function(name) {
+            console.log('teacher: '+name)
+        }
+    } else if(job === 'lawyer') {
+        return function(name) {
+            console.log('lawyer: '+name)
+        }
+    } else {
+        return function(name) {
+            console.log('Mention your profession: '+name)
+        }
+    }
+}
+var state = jobType('teacher');
+console.log(state('Ram'))				// teacher: Ram
+
+var state = jobType('doctor')('Ram');
+console.log(state)						// Mention your profession: Ram
+
+
+17. CLOSURES:
+An inner func has always access to the variables and parameters of its outer func, 
+even after the outer func has returned
+eg:
+function outerFunc(a) {
+    var b = "outer var";
+    return function innerFunc(c) {
+        console.log(a,b,c)
+    }
+}
+
+var x = outerFunc(10);
+console.log(x(20));
+O/P: 10 "outer var" 20
+NOTE: a, b are accessible in innerFunc() even after outerFunc() has returned bcoz a,b are accessible for innerFunc due to closure
+
+
+18. 
