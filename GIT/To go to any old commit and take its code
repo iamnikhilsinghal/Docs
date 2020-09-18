@@ -1,0 +1,9 @@
+git branch
+git log
+git checkout 2564a18c3b7e4b9adfe79997e3f33fe698e6ebd0
+
+If conflict:
+git reset HEAD .
+git status
+git checkout -- .
+git checkout  2564a18c3b7e4b9adfe79997e3f33fe698e6ebd0
