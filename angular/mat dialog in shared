@@ -1,0 +1,49 @@
+1. Create confirmation folder in shared:
+.ts:
+import { Component, OnInit, Inject } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+@Component({
+  selector: 'app-confirmation',
+  templateUrl: './confirmation.component.html'
+})
+export class ConfirmationComponent implements OnInit {
+  constructor(public dialogRef: MatDialogRef<any>,
+  @Inject(MAT_DIALOG_DATA) public data: any) { }
+  ngOnInit() {
+    console.log(this.data);
+  }
+}
+
+.html:
+app-confirmation works
+<pre>
+  {{ data | json }}
+</pre>
+
+2. shared.module.ts:
+import { ConfirmationComponent } from './confirmation/confirmation.component';
+declarations: [    ConfirmationComponent ]
+exports: [ ConfirmationComponent ]
+ entryComponents: [ ConfirmationComponent ]
+
+
+ 3. Now, in which component you want to access:
+ .html:
+<button (click)="openConfirmationDialog()" pustype="button" class="btn btn-primary">Demo dialog</button>
+
+.ts:
+import { ConfirmationComponent } from 'src/app/shared/confirmation/confirmation.component';
+private matDialog: MatDialog
+ openConfirmationDialog() {
+    this.matDialog.open(ConfirmationComponent, {data: {name: 'navi'}});
+  }
+
+
+Note:- Now when you'll click, you ll see: 
+app-confirmation works  
+{
+  "name": "navi"
+}
+
+NOTE: For a Confirm box (Yes/No)
+https://stackblitz.com/edit/reusable-confirmation-dialog-angular-material
