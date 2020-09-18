@@ -1,0 +1,756 @@
+1. node is not a programming language or a framework but a runtime environment to execute JS code.
+node: Asynchronus request while Asp.net: Synchronus request bydefault
+Dont use node with CPU intensive services like image/video manipulation services
+node should be used with data intensive or real time apps
+
+2. node app.js
+here node gives the file to V8 (Chrome's js engine) for execution
+
+3. console.log(window)  // gives error
+as window or document are the part of runtime evt that we get by the browsers, in node we have other objects 
+
+4. window is replaced by 'global' here:
+console.log(global);
+O/P:
+Object [global] {
+  global: [Circular],
+  clearInterval: [Function: clearInterval],
+  clearTimeout: [Function: clearTimeout],
+  setInterval: [Function: setInterval],
+  setTimeout: [Function: setTimeout] { [Symbol(util.promisify.custom)]: [Function] },
+  queueMicrotask: [Function: queueMicrotask],
+  clearImmediate: [Function: clearImmediate],
+  setImmediate: [Function: setImmediate] {
+    [Symbol(util.promisify.custom)]: [Function]
+  }
+}
+
+5. Any defined var is availiable only inside the app.js file, not outside:
+var msg = 'nikhil';
+console.log('msg:' + msg);								// nikhil	
+console.log('global.msg:' + global.msg);				// undefined
+
+6. Every file in node considered as module and the var/methods defined there scoped to that module, 
+not outside globally as we saw in point 5.
+console.log(module);
+O/P:
+Module {
+  id: '.',
+  path: '/home/nikhil/first-aap',
+  exports: {},
+  parent: null,
+  filename: '/home/nikhil/first-aap/app.js',
+  loaded: false,
+  children: [],
+  paths: [
+    '/home/nikhil/first-aap/node_modules',
+    '/home/nikhil/node_modules',
+    '/home/node_modules',
+    '/node_modules'
+  ]
+}
+NOTE: All node modules are here: 
+https://nodejs.org/dist/latest-v12.x/docs/api/
+
+7. Loading another module in main module, assume app.js is main:
+logger.js:
+function log(msg) {
+  console.log(msg);
+}
+module.exports.log = log;								OR exports.log = log;
+
+app.js:
+var a = require('./logger');
+console.log(a);									// [object Object]
+console.log(a.log);								// function log(msg) {  console.log(msg); }
+a.log('Nikhil')									// Nikhil
+
+
+8. node does not run code directly but wrap it inside an IIFE, that IIFE func is call Module Wrapper function.
+Normally:
+	body
+
+Actually:
+(function (exports, require, module, __filename, __dirname){
+	body
+})
+
+
+9. Path module:
+const path = require('path');
+const pathObj = path.parse(__filename);
+console.log(pathObj);
+O/P:
+{
+  root: '/',
+  dir: '/home/nikhil/first-aap',
+  base: 'logger.js',
+  ext: '.js',
+  name: 'logger'
+}
+
+10. OS module:
+const os = require('os');
+const totalmem = os.totalmem();
+const freemem = os.freemem();
+console.log('totalmem:', totalmem);
+console.log('freemem:', freemem);
+O/P:
+totalmem: 33544572928
+freemem: 20177100800
+
+11. 
+const EventEmitter = require('events'); // EventEmitter is a class here
+const emitter = new EventEmitter(); // emitter is an object
+
+const EventEmitter = require('events'); // EventEmitter is a class here
+const emitter = new EventEmitter(); // emitter is an object
+
+//Register a listener
+emitter.on('MsgLogged', function(args) {
+  console.log('Listener called ' + args.msg);
+});
+
+//Raise an Event
+emitter.emit('MsgLogged', { id: 1, msg: 'first msg' }); //Passing arguments
+
+O/P:
+Listener calledfirst msg
+
+12. Building a web server with node's http module:
+const http = require('http');
+
+const server = http.createServer((req, res) => {
+  if (req.url === '/') {
+    res.write('Home');
+    res.end();
+  }
+  if (req.url === '/api') {
+    res.write('List of APIs');
+    res.end();
+  }
+});
+
+server.listen(3000);
+console.log('Listening to port 3000..');
+
+O/P:
+Listening to port 3000..
+NOW open localhost:3000 and access given routes
+
+
+13. NPM
+A command line tool or a registry of third party library that we can add in our node app
+Package.json: have metadata about your app'
+npm init
+command to create package.json file.
+npm init --yes : to avoid press enter again n again
+
+14. Installing a node package;
+npm i underscore
+Earlier you need to write --save to list the installed package inside 'dependencies' under package.json file:
+package.josn
+"dependencies": {
+    "underscore": "^1.9.2"
+  }
+Now without writing --save, it will be listed.
+The same underscore package will be inside node-modules folder
+
+15. Using a package:
+var _ = require('underscore');
+// REQIRE PRIORITY:
+// core module
+// file or folder
+// present inside node_modules
+
+var check = _.contains([1, 2, 3], 3);
+console.log(check);
+
+
+16. Package dependencies:
+Earlier:
+ls node_modules/
+O/P: underscore
+
+npm i mongoose
+Now:
+ls node_modules/
+then:
+"dependencies": {
+    "mongoose": "^5.9.6",
+    "underscore": "^1.9.2"
+  }
+O/P:
+bl        core-util-is  inherits  memory-pager  mongoose-legacy-pluralize  ms                    regexp-clone      safe-buffer  sift             string_decoder
+bluebird  debug         isarray   mongodb       mpath                      process-nextick-args  require_optional  saslprep     sliced           underscore
+bson      denque        kareem    mongoose      mquery                     readable-stream       resolve-from      semver       sparse-bitfield  util-deprecate
+
+These are the packages on which mongoose depends.
+
+
+17. 
+.gitignore:
+node_modules/
+Now node_modules/ will no longer be traced while do: git status
+
+18. Semantic Versioing (SemVer) :
+"dependencies": {
+    "mongoose": "^5.9.6",			
+    "underscore": "^1.9.2"
+  }
+
+"mongoose": "^5.9.6",	    // Major.Minor.Patch
+^ : caret symbol
+
+"mongoose": "~5.9.6",	 //Interested any version above 5.9.x
+~ : tilde
+
+19. 
+a. Listing the installed package:
+npm list
+or
+npm list --depth=0
+
+b. Viewing registry info for a package;
+npm view mongoose
+To check its dependency:
+npm view mongoose dependencies
+
+c. To check outdated packages:
+npm outdated
+
+d. To update:
+npm update
+
+e. To check if updated:
+sudo npm i -g npm-check-updates
+
+f. To uninstall
+npm un mongoose
+
+
+20. Nodemon: Node manager which removes the problem of restarting the server again n again on any change
+so instead of ruunimh app: 
+node index.js
+write:
+nodemon index.js
+
+install it globally using:
+npm i -g nodemon
+
+21. EXPRESS:
+const express = require('express');
+const app = express();
+
+app.get('/', (req, res) => {
+  res.send('Hello World');
+});
+
+app.get('/api/courses', (req, res) => {
+  res.send([1, 2, 3]);
+});
+
+app.listen(3000, () => {
+  console.log('Listening to port 3000..');
+});
+
+
+21. Set env var: To pass any port dynamically:
+On terminal:
+export PORT=5000
+
+index.js:
+const port = process.env.PORT || 3000;
+app.listen(port, () => {
+  console.log(`Listening to port ${port}`);
+});
+
+
+22. 
+Route Parameters(req.params): to pass essential/required values
+app.get('/api/courses/:id', (req, res) => {
+  res.send(req.params.id);									// 1
+});
+
+app.get('/api/courses/:year/:month', (req, res) => {
+  res.send(req.params);										// {"year":"2020","month":"3"}
+});
+
+QueryString parametrs(req.query): For additional info to the backend, for info that is optional:
+app.get('/api/courses/:year/:month', (req, res) => {
+  res.send(req.query);										// {"sortBy":"Date"}
+});
+
+
+23. Passing get request:
+Way 1: api/courses
+Way 2: api/courses/1
+
+const express = require('express');
+const app = express();
+
+const courses = [
+  { id: 1, name: 'course1' },
+  { id: 2, name: 'course2' },
+  { id: 3, name: 'course3' }
+];
+
+app.get('/', (req, res) => {
+  res.send('Hello World');
+});
+
+app.get('/api/courses', (req, res) => {
+  res.send(courses);
+});
+
+app.get('/api/courses/:id', (req, res) => {
+  const course = courses.find(c => c.id === parseInt(req.params.id));
+  if (!course) {
+    res.status(404).send('Invalid request');
+  }
+  res.send(course);
+});
+
+app.listen(3000, () => {
+  console.log(`Listening to port 3000`);
+});
+
+
+24. Post request:
+app.post('/api/courses', (req, res) => {
+  const course = {
+    id: courses.length + 1,
+    name: req.body.name
+  };
+  courses.push(course);
+  res.send(courses);
+});
+
+Call in Postman:
+http://localhost:3000/api/courses
+Body->json
+{
+	"name" : "New course"	
+}
+
+also allow in index.js:
+app.use(express.json());
+to pass json
+
+ 25. Validation on name:
+ Manually:
+   if (!req.body.name || req.body.name.length < 3) {
+    res.status(400).send('Name is required with minimum 3 chars');
+    return;
+  }
+
+Using a package 'joi' : 
+const Joi = require('joi');
+const schema = {
+    name: Joi.string()
+      .min(3)
+      .required()
+  };
+
+  const result = Joi.validate(req.body, schema);
+  if (result.error) {
+    res.status(400).send(result.error.details[0].message);
+  }
+
+26. PUT request:
+app.put('/api/courses/:id', (req, res) => {
+  // Find the Course with given id
+  const course = courses.find(c => c.id === parseInt(req.params.id));
+  if (!course) {
+    res.status(404).send('Invalid request');
+    return;
+  }
+
+  //Validate the given updated name
+  const schema = {
+    name: Joi.string()
+      .min(3)
+      .required()
+  };
+
+  const result = Joi.validate(req.body, schema);
+  if (result.error) {
+    res.status(400).send(result.error.details[0].message);
+    return;
+  }
+
+  //Update name
+  course.name = req.body.name;
+  res.send(courses);
+});
+
+27. DELETE request:
+app.delete('/api/courses/:id', (req, res) => {
+  // Find the Course with given id
+  const course = courses.find(c => c.id === parseInt(req.params.id));
+  if (!course) {
+    res.status(404).send('Invalid request');
+    return;
+  }
+
+  //Find index and delete
+  const index = courses.indexOf(course);
+  courses.splice(index, 1);
+  res.send(courses);
+});
+
+___________________________________________________________________________________________________
+
+28. Callback:
+Normally without callback, 
+console.log('before');
+const user = getUser(1);					// UNDEFINED
+console.log(user);
+console.log('after');
+
+function getUser(Id) {
+  setTimeout(() => {
+    console.log('calls after 2 seconds..');
+    return { id: Id, name: 'Nikhil' };
+  }, 2 * 1000);
+}
+
+With callback:
+console.log('before');
+const user = getUser(1, function(user) {					OR const user = getUser(1, user => {
+  console.log(user);							// { id: 1, name: 'Nikhil' }
+});
+console.log('after');
+
+function getUser(Id, callback) {
+  setTimeout(() => {
+    console.log('calls after 2 seconds..');
+    callback({ id: Id, name: 'Nikhil' });
+  }, 2 * 1000);
+}
+
+
+29. Promise:
+Any async task that taking a callback, should be replaced with promise.
+
+__________________________________________________________________________________________________________________
+
+30. Middleware Function: that accepts request from the client and either response or pass the request to another middleware.
+eg1:
+Route Handler Func:
+(req, res) => {
+  res.send(courses);				// as it follow req-resp cycle
+});
+eg2: app.use(express.json());
+
+31. An express app is a bunch of middleware func
+Custom Middleware function:
+app.use(express.json());
+
+app.use(function(req, res, next) {				// first Custom Middleware function
+  console.log('Logging..');
+  next();
+});
+
+app.use(function(req, res, next) {				// Second Custom Middleware function
+  console.log('Logging again..');
+  next();
+});
+
+Now when you run : node index.js
+it will log these logs in serial order
+
+
+32. Built-in middleware:
+eg:1
+Normally in post request, to enter data:
+body -> raw -> json
+If you wanna send it encoded:
+app.use(express.urlencoded({ extended: true }));
+Now in postman, go in: body -> x-www-form-urlencoded and enter name.
+
+eg:2
+Normally if you make and folder and enter static files there, you cant access it:
+eg:
+Create a folder 'public' and a file inside 'readme.txt':
+Then add a middleware:
+app.use(express.static('public'));
+
+
+33. Third party middleware:
+To check logs what API you calling:
+npm i morgan
+
+const morgan = require('morgan');
+app.use(morgan('tiny'));
+
+Now If do any get/post request:
+Listening to port 3000
+POST /api/courses 200 103 - 7.281 ms
+GET /api/courses 200 103 - 0.391 ms
+
+
+34. Environment: To use certain middleware on a particular envt, not in other
+To get envt:
+console.log(`Envt via process object: ${process.env.NODE_ENV}`);			// undefined
+console.log(`Envt via app: ${app.get('env')}`);								// development
+
+NOTE: app by default gives 'development'. So we can give it conditionally:
+if (app.get('env') === 'development') {
+  app.use(morgan('tiny'));
+}
+
+now if we change envt: export NODE_ENV=production, no morgon work
+
+
+35. Configuration:
+To show different configration in different envt:
+Create a folder named 'config' and files: default.json, development.json, production.json
+development.json:
+{
+  "name": "My Express App -Development",
+  "mail": {
+    "host": "dev-mail-server"
+  }
+}
+
+Now install config: npm config
+const config = require('config');
+console.log(`App Name: ${config.get('name')}`);
+console.log(`App Name: ${config.get('mail.host')}`);
+
+Now change envt(export NODE_ENV=production) and see diff config:
+TO protect fields like pwd:
+Make a file with exact name: 'custom-environment-variables.json'
+{
+  "password": "app_password"
+}
+
+Terminal: export app_password=1234
+console.log(`App Pwd: ${config.get('password')}`);				// App Pwd: 1234	
+
+
+36. To avoid deleting console.log from whole app,
+Use 'debug' module:
+eg:
+const startupDebugger = require('debug')('app:startup');
+if (app.get('env') === 'development') {
+  startupDebugger('Morgan enabled...');							//debug startupDebugger
+  app.use(morgan('tiny'));
+}
+
+Terminal:
+export DEBUG=app:startup
+Now when you'll run:
+node index.js
+	app:startup Morgan enabled... +0ms
+
+37. Template Engine module: To send html template to the client
+
+38. For db integration: https://expressjs.com/en/guide/database-integration.html
+
+39. ROUTER:
+Just create a folder: routes and a file: courses 
+and put code related to th apis '/api/courses' inside it:
+courses.js:
+const express = require('express');
+const router = express.Router();
+and replace all 'app' with 'router',
+and delete /api/courses in the path.
+at last: module.exports = router;
+
+index.js
+const courses = require('./routes/courses');
+app.use('/api/courses', courses);
+
+
+Similarly to tranfer 'home' route:
+Just create a file: home inside routes: 
+home.js
+const express = require('express');
+const router = express.Router();
+router.get('/', (req, res) => {
+  res.send('Hello World');
+});
+module.exports = router;
+
+index.js:
+const home = require('./routes/home');
+app.use('/', home);
+
+______________________________________________________________________________
+
+40.  Mongoose: gives us API to work with Mongo db
+	Schema: shape of document(Row in RDBMS) within a collection(table in RDBMS))in mongo db
+
+41. Regex in mongo:
+a. Starts with Mosh:
+.find({ author : /^Mosh/ })
+b. Ends with Singh:
+.find({ author : /Singh$/ })
+c. To make Mosh case insensitive:
+.find({ author : /Mosh/i })
+d. Contains Mosh:
+.find({ author : /.*Mosh.*/i })
+
+42. FROM DOCS: 
+
+
+mongoose.connect('mongodb+srv://UserName:<password>@cluster0-8vkls.mongodb.net/test?retryWrites=true&w=majority', {
+  useNewUrlParser: true
+});
+
+Connecting to MongoDB:
+const mongoose = require(‘mongoose’);
+mongoose.connect(‘mongodb://localhost/playground')
+ .then(() => console.log(‘Connected…’))
+ .catch(err => console.error(‘Connection failed…’));
+
+To store objects in MongoDB, we need to define a Mongoose schema first. The
+schema defines the shape of documents in MongoDB.
+Defining a schema:
+const courseSchema = new mongoose.Schema({
+ name: String,
+ price: Number
+});
+
+We can use a SchemaType object to provide additional details:
+Using a SchemaType object
+const courseSchema = new mongoose.Schema({
+ isPublished: { type: Boolean, default: false }
+});
+
+Supported types are: String, Number, Date, Buffer (for storing binary data),
+Boolean and ObjectID
+Once we have a schema, we need to compile it into a model. A model is like a
+class. It’s a blueprint for creating objects:
+Creating a model:
+const Course = mongoose.model(‘Course’, courseSchema);
+CRUD Operations
+
+Saving a document:
+let course = new Course({ name: ‘…’ });
+course = await course.save();
+
+Querying documents:
+const courses = await Course
+ .find({ author: ‘Mosh’, isPublished: true })
+ .skip(10)
+ .limit(10)
+ .sort({ name: 1, price: -1 })
+ .select({ name: 1, price: 1 });
+
+Updating a document (query first):
+const course = await Course.findById(id);
+if (!course) return;
+course.set({ name: ‘…’ });
+course.save();
+
+Updating a document (update first):
+const result = await Course.update({ _id: id }, {
+ $set: { name: ‘…’ }
+});
+
+Updating a document (update first) and return it:
+const result = await Course.findByIdAndUpdate({ _id: id }, {
+ $set: { name: ‘…’ }
+}, { new: true });
+
+Removing a document:
+const result = await Course.deleteOne({ _id: id });
+const result = await Course.deleteMany({ _id: id });
+const course = await Course.findByIdAndRemove(id);
+
+43. Mongoose validation and Joi validation compliments each other as Joi checks that the data sent by the user must be valid
+ and Mongoose validation validates at the time when we are saving th data into the db
+
+When defining a schema, you can set the type of a property to a SchemaType
+object. You use this object to define the validation requirements for the given
+property.
+
+Adding validation:
+new mongoose.Schema({
+ name: { type: String, required: true }
+})
+
+Validation logic is executed by Mongoose prior to saving a document to the
+database. You can also trigger it manually by calling the validate() method.
+Built-in validators:
+- Strings: minlength, maxlength, match, enum
+- Numbers: min, max
+- Dates: min, max
+- All types: required
+
+Custom validation:
+tags: [
+ type: Array,
+ validate: {
+ validator: function(v) { return v && v.length > 0; },
+ message: ‘A course should have at least 1 tag.’
+ }
+]
+
+If you need to talk to a database or a remote service to perform the validation,
+you need to create an async validator:
+validate: {
+ isAsync: true
+ validator: function(v, callback) {
+ // Do the validation, when the result is ready, call the callback
+ callback(isValid);
+ }
+ }
+
+Other useful SchemaType properties:
+- Strings: lowercase, uppercase, trim
+- All types: get, set (to define a custom getter/setter)
+ price: {
+ type: Number,
+ get: v => Math.round(v),
+ set: v => Math.round(v)
+ }
+
+ ___________________________________________________________________________________________________
+
+ Maximillian:
+ 1. node js allows to run js not only in the browser but on server as well
+ node js uses V8(part of chrome) which is a js engine built by Google, written in c++, to run js in browser
+ JS engine takes js code and convert it into machine code
+ browser does not provide access to your file system due to security reasons but using node js with V8, its possible 
+ process.exit() exits the server
+
+ 2. Request:
+ const http = require('http');
+ const server = http.createServer((req, res) => {
+  console.log(req.url);                     /
+  console.log(req.method);                  GET
+ 
+  console.log(req.headers);                 downside
+});
+server.listen(4000);
+
+{
+  host: 'localhost:4000',
+  connection: 'keep-alive',
+  'cache-control': 'max-age=0',
+  'upgrade-insecure-requests': '1',
+  'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.162 Safari/537.36',
+  'sec-fetch-dest': 'document',
+  accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
+  'sec-fetch-site': 'none',
+  'sec-fetch-mode': 'navigate',
+  'sec-fetch-user': '?1',
+  'accept-encoding': 'gzip, deflate, br',
+  'accept-language': 'en-GB,en-US;q=0.9,en;q=0.8'
+
+  3. sendin back response:
+  const http = require('http');
+  const server = http.createServer((req, res) => {
+  res.setHeader('Content-Ttpe', 'text/html');
+  res.write('<HTML>');
+  res.write('<BODY><H1>INDIA</H1></BODY>');
+  res.write('</HTML>');
+  res.end();
+});
+server.listen(4000);
+
+NOTE: availiable headers: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers
