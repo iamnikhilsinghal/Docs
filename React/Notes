@@ -1,0 +1,25 @@
+npx create-react-app practice-react
+cd practice-react/
+code .
+
+sudo npm install react-router-dom
+sudo npm install @material-ui/icons
+sudo npm install @material-ui/core
+sudo npm install react-material-ui-form-validator
+
+
+Mounting
+constructor()
+getDerivedStateFromProps()
+render()
+componentDidMount()
+
+Updating
+getDerivedStateFromProps()
+shouldComponentUpdate()
+render()
+getSnapshotBeforeUpdate()
+componentDidUpdate()
+
+Unmounting
+componentWillUnmount()
