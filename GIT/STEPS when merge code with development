@@ -1,0 +1,14 @@
+ git add .
+ git log
+ git commit -m "UI issue resolved"
+ git branch
+ git push origin development-nikhil 
+ git checkout development
+ git pull
+ git merge development-nikhil
+ git status
+ git commit
+ git push
+ git checkout development-nikhil
+ git merge development
+ git status
