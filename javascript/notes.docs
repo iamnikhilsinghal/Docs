@@ -1306,4 +1306,682 @@ O/P: 10 "outer var" 20
 NOTE: a, b are accessible in innerFunc() even after outerFunc() has returned bcoz a,b are accessible for innerFunc due to closure
 
 
-18. 
+____________________________________________________________________________
+
+ES6:
+1. var(ES5) has a function scope while let,const(ES6) has block scope:
+function es5Func(check){
+    if(check){
+        var first = "John";
+        var last = "Miller";
+    }
+    console.log(first, last)
+}
+
+es5Func(true);						// John Miller
+
+function es6Func(check){
+    if(check){
+        let first = "John";
+        const last = "Miller";
+    }
+    console.log(first, last)
+}
+
+es6Func(true);						// Uncaught ReferenceError: first is not defined
+ NOte:
+ It can work in this way if we declare let and const outside if:
+ function es6Func(check){
+    let first;
+    const last = "Miller";
+    if(check){
+        first = "John";
+    }
+    console.log(first, last)
+}
+
+es6Func(true);						// John Miller
+
+
+2. we need to initialize const at the time of declaration:
+let a;
+a = "ram";
+console.log(a)					// ram
+
+const a;
+a = "ram";
+console.log(a)					// Uncaught SyntaxError: Missing initializer in const declaration
+
+
+3. let has a block scope:
+eg 1:
+let i=23;
+for(let i=0; i<=3; i++) {
+    console.log(i);						// 0 1 2 3
+}
+console.log(i);							// 23
+
+eg 2:
+{
+    let a = 5;
+    const b=6;
+}
+console.log(a+b);				// Uncaught ReferenceError: a is not defined
+
+while var is accessible:
+// ES5
+{
+    var a = 5;
+}
+console.log(a);							// 5
+
+but not using IIFE:
+(function(){
+    var c=3;
+})();
+console.log(c)							// Uncaught ReferenceError: c is not defined
+
+
+4. Use of backticks makes string use easy:
+let f = "Nikhil";
+const l = "Singhal";
+console.log('My name is:' + f + ' ' + l);           // ES5
+console.log(`My name is ${f} ${l}`);                // ES6
+
+const name = `${f} ${l}`;
+console.log(name.startsWith('N'));					// true	
+console.log(name.endsWith('N'));					// false
+console.log(name.includes('kh'));					// true
+console.log(name.repeat(3));						// Nikhil SinghalNikhil SinghalNikhil Singhal
+IF WANT SPACE, THEN USE BACKTICKS:
+console.log(`${name} `.repeat(3));					// Nikhil Singhal Nikhil Singhal Nikhil Singhal
+
+
+5. using (=>):
+//ES5
+const years = [1990, 2010, 2005];
+var ages5 = years.map(function(el) { 
+return 2020 - el 
+})
+console.log(ages5)                              // [30, 10, 15]
+
+//ES6
+var ages6 = years.map(el => 2020 - el )
+console.log(ages6)                              // [30, 10, 15]
+
+ages6 = years.map((el, index) => `element at pos: ${index+1} is ${2020 - el}` )
+console.log(ages6)                              // ["element at pos: 1 is 30", "element at pos: 2 is 10", "element at pos: 3 is 15"]
+NOTE: now   [ function(el) { return  ] 		is replaces with   [  el =>   ]
+
+
+6. Arrow func dont have their own 'this' keyword like the normal func,
+In normal func call, this keyword always points to to global object(window) and
+if its a method call, this keyword will point to the object 
+So they share the surrouding this keyword means they use the this keyword of the function they are written in
+and its call lexical 'this' keyword
+eg1:
+var box = {
+    color: 'green',
+    position: 1,
+    clickme: function() {
+        document.querySelector('.green').addEventListener('click', function() {
+            var str = 'box color is: ' + this.color + ' and position is: ' + this.position;
+            alert(str);
+        });
+    }
+}
+box.clickme();					
+o/p: (in alert box): box color is: undefined and position is: undefined
+
+Now replace inner function() with ()=>
+'click', ()=> {
+
+If we do it for outer as well then again it goes undefined as then this will refer the global window
+NOTE: a little hack is that we can use function() inner as well, just write a new varible and assign this into it:
+self = this and then call the using self like..
+     var str = 'box color is: ' + self.color + ' and position is: ' + self.position;
+
+
+eg2:
+if function() format dont find this,then we use bind() to create a copy of this, to use it inside function():
+// ES5
+function Person(name) {
+    this.name = name;
+}
+
+Person.prototype.myfriends = 
+    function(friends) {
+    var arr =  friends.map(function(el) 
+    {
+        return this.name + ' is friends with ' + el;
+    }.bind(this))
+    console.log(arr);
+}
+
+var friendsList = ['Rahul', 'Sita'];
+new Person('John').myfriends(friendsList);			// ["John is friends with Rahul", "John is friends with Sita"]
+
+
+// ES
+Person.prototype.myfriends6 = 
+    function(friends) {
+    var arr =  friends.map(el => `${this.name} is friends with ${el}` );
+    console.log(arr);
+}
+
+new Person('John').myfriends6(friendsList);			// ["John is friends with Rahul", "John is friends with Sita"]
+
+NOTE: call() is used for an instant func call
+
+
+7. Destructuring:
+const [name, age] = ['Nikhil', 26];
+console.log(name);				// Nikhil
+console.log(age);				// 26
+
+const obj = {
+    first : 'Nikhil',
+    last : 'Singhal'
+}
+
+const {first, last} = obj;
+console.log(first);				// Nikhil
+console.log(last);				// Singhal
+
+const {first: a, last: b} = obj;
+console.log(a);					// Nikhil
+console.log(b);					// Singhal
+
+
+8. Array in ES5 and ES6:
+.html:
+<body>
+ <div class="box green">I'm green!</div>
+ <div class="box blue">I'm blue!</div>
+ <div class="box orange">I'm orange!</div>
+</body>
+
+
+eg 1: To change the color of 3 boxes in one time:
+const boxes  = document.querySelectorAll('.box');
+console.log(boxes);
+
+//ES5
+const boxesArr5 = Array.prototype.slice.call(boxes);
+boxesArr5.forEach(function(cur) {
+    cur.style.backgroundColor= 'yellow';
+});
+
+//ES6
+const boxesArr6 = Array.from(boxes);
+boxesArr6.forEach(cur =>  cur.style.backgroundColor= 'yellow');
+
+eg 2: To write 'I changed to blue', otherwise continue:
+//ES5
+for(var i = 0; i < boxesArr5.length; i++) {
+    if(boxesArr5[i].className === 'box blue') {
+        continue;
+    }
+    
+    boxesArr5[i].textContent = 'I changed to blue!';  
+}
+
+//ES6
+for (const cur of boxesArr6) {
+    if (cur.className.includes('blue')) {
+        continue;
+    }
+    cur.textContent = 'I changed to blue!';
+}
+
+
+eg 3: return the age which is greater than 18:
+//ES5
+var ages = [12, 17, 8, 21, 14, 11];
+var full = ages.map(function(cur) {
+    return cur >= 18;
+});
+console.log(full);										// [false, false, false, true, false, false]	
+console.log(full.indexOf(true));						// 3
+console.log(ages[full.indexOf(true)]);					// 21
+
+//ES6
+console.log(ages.findIndex(cur => cur >= 18));			// 3
+console.log(ages.find(cur => cur >= 18));				// 21
+
+
+9. Spread operator
+function addFourAges (a, b, c, d) {
+    return a + b + c + d;
+}
+
+var sum1 = addFourAges(18, 30, 12, 21);
+console.log(sum1);									// 81
+
+//ES5
+var ages = [18, 30, 12, 21];
+var sum2 = addFourAges.apply(null, ages);
+console.log(sum2);									// 81
+
+//ES6
+const sum3 = addFourAges(...ages);
+console.log(sum3);									// 81
+
+const familySmith = ['John', 'Jane', 'Mark'];
+const familyMiller = ['Mary', 'Bob', 'Ann'];
+const bigFamily = [...familySmith, 'Lily', ...familyMiller];
+console.log(bigFamily);								// ["John", "Jane", "Mark", "Lily", "Mary", "Bob", "Ann"]
+
+
+10. Rest Parameters: they also use (...) but exact opposite to spread operator
+Spread operator takes an array and transform it into single values
+But rest para takes single values n transform it into array when we call a func with multiple para.
+
+if we dont write paramters in func, by default it passes in 'arguments' which looks like an array but not exactly:
+
+// ES5
+function findAge() {
+    console.log(arguments);				// Arguments(2) [1990, 1995, callee: ƒ, Symbol(Symbol.iterator): ƒ]
+}
+findAge(1990, 1995);
+
+// ES6
+function findAge(...years) {					// REST para
+    console.log(years);							// [1990, 1995]
+}
+findAge(1990, 1995);
+
+eg:
+//ES5
+function isFullAge5() {
+    var argsArr = Array.prototype.slice.call(arguments);
+    argsArr.forEach(function(cur) {
+        console.log((2016 - cur) >= 18);
+    })
+}
+isFullAge5(1990, 1999, 1965);
+isFullAge5(1990, 1999, 1965, 2016, 1987);
+
+//ES6
+function isFullAge6(...years) {
+    years.forEach(cur => console.log( (2016 - cur) >= 18));
+}
+
+isFullAge6(1990, 1999, 1965, 2016, 1987);
+
+
+//ES5
+function isFullAge5(limit) {
+    var argsArr = Array.prototype.slice.call(arguments, 1);         // slice will cut from index 1 now
+    argsArr.forEach(function(cur) {
+        console.log((2016 - cur) >= limit);
+    })
+}
+isFullAge5(16, 1990, 1999, 1965);
+
+//ES6
+function isFullAge6(limit, ...years) {
+    years.forEach(cur => console.log( (2016 - cur) >= limit));
+}
+isFullAge6(16, 1990, 1999, 1965, 2016, 1987);
+
+
+11. Default parameters
+
+// ES5
+function SmithPerson(firstName, yearOfBirth, lastName, nationality) {
+    lastName === undefined ? lastName = 'Smith' : lastName = lastName;
+    nationality === undefined ? nationality = 'american' : nationality = nationality;
+    this.firstName = firstName;
+    this.lastName = lastName;
+    this.yearOfBirth = yearOfBirth;
+    this.nationality = nationality;
+}
+
+
+//ES6
+function SmithPerson(firstName, yearOfBirth, lastName = 'Smith', nationality = 'american') {
+    this.firstName = firstName;
+    this.lastName = lastName;
+    this.yearOfBirth = yearOfBirth;
+    this.nationality = nationality;
+}
+var john = new SmithPerson('John', 1990);
+var emily = new SmithPerson('Emily', 1983, 'Diaz', 'spanish');
+
+
+12. Map:
+Its better than obj as we can create key as not onlt string, but other datatype as well
+
+const question = new Map();
+question.set('question', 'What is the official name of the latest major JavaScript version?');
+question.set(1, 'ES5');
+question.set(2, 'ES6');
+question.set(3, 'ES2015');
+question.set(4, 'ES7');
+question.set('correct', 3);
+question.set(true, 'Correct answer :D');
+question.set(false, 'Wrong, please try again!');
+
+console.log(question.get('question'));				// What is the official name of the latest major JavaScript version?
+console.log(question.size);							// 8
+
+
+if(question.has(4)) {
+    question.delete(4);
+    //console.log('Answer 4 is here')
+}
+
+//question.clear();
+
+
+//question.forEach((value, key) => console.log(`This is ${key}, and it's set to ${value}`));
+
+
+for (let [key, value] of question.entries()) {
+    if (typeof(key) === 'number') {
+        console.log(`Answer ${key}: ${value}`);						// Answer 1: ES5
+																	   Answer 2: ES6  ...
+    }
+}
+
+const ans = parseInt(prompt('Write the correct answer'));
+console.log(question.get(ans === question.get('correct')));
+
+
+13. Class
+classes dont add anything new to the lang, they are just the easier way of doing prototype inheritance 
+In ES5, the bluepints are called func constructors and we add func to their prototype property
+
+//ES5
+var Person5 = function(name, yearOfBirth, job) {
+    this.name = name;
+    this.yearOfBirth = yearOfBirth;
+    this.job = job;
+}
+
+Person5.prototype.calculateAge = function() {
+    var age = new Date().getFullYear - this.yearOfBirth;
+    console.log(age);
+}
+
+var john5 = new Person5('John', 1990, 'teacher');
+
+//ES6
+class Person6 {
+    constructor (name, yearOfBirth, job) {
+        this.name = name;
+        this.yearOfBirth = yearOfBirth;
+        this.job = job;
+    }
+    
+    calculateAge() {
+        var age = new Date().getFullYear - this.yearOfBirth;
+        console.log(age);
+    }
+    
+    static greeting() {
+        console.log('Hey there!');
+    }
+}
+
+const john6 = new Person6('John', 1990, 'teacher');
+Person6.greeting();										// static func directly called by class name
+
+14. Classes and subclasses
+
+//ES5
+var Person5 = function(name, yearOfBirth, job) {
+    this.name = name;
+    this.yearOfBirth = yearOfBirth;
+    this.job = job;
+}
+
+Person5.prototype.calculateAge = function() {
+    var age = new Date().getFullYear() - this.yearOfBirth;
+    console.log(age);
+}
+
+var Athlete5 = function(name, yearOfBirth, job, olymicGames, medals) {
+    Person5.call(this, name, yearOfBirth, job);
+    this.olymicGames = olymicGames;
+    this.medals = medals;
+}
+
+Athlete5.prototype = Object.create(Person5.prototype);				// Object.create() help us to manually set the prototype of an object
+
+Athlete5.prototype.wonMedal = function() {
+    this.medals++;
+    console.log(this.medals);
+}
+
+var johnAthlete5 = new Athlete5('John', 1990, 'swimmer', 3, 10);
+
+johnAthlete5.calculateAge();
+johnAthlete5.wonMedal();
+
+
+//ES6
+class Person6 {
+    constructor (name, yearOfBirth, job) {
+        this.name = name;
+        this.yearOfBirth = yearOfBirth;
+        this.job = job;
+    }
+
+    calculateAge() {
+        var age = new Date().getFullYear() - this.yearOfBirth;
+        console.log(age);
+    }
+}
+
+class Athlete6 extends Person6 {
+    constructor(name, yearOfBirth, job, olympicGames, medals) {
+        super(name, yearOfBirth, job);
+        this.olympicGames = olympicGames;
+        this.medals = medals;
+    }
+    
+    wonMedal() {
+        this.medals++;
+        console.log(this.medals);
+    }
+}
+
+const johnAthlete6 = new Athlete6('John', 1990, 'swimmer', 3, 10);
+
+johnAthlete6.wonMedal();
+johnAthlete6.calculateAge();
+
+___________________________________________________________________________________________________
+
+
+15. Asynchronus JS: The code which running in the bg while the main code is still executing
+eg: requesting some data from the remote server like an API
+
+	<script>
+        var first = () => {
+            console.log('first call')
+            second()
+            console.log('The end')
+        }
+        
+        var second = () => {
+            console.log('second call')
+        }
+        
+        first()
+    </script>
+O/P:
+first call
+second call
+The end
+
+BUT its  possible second func respond after 2 sec:
+	var second = () => {
+            setTimeout(() => {
+                console.log('second call')
+            }, 2 * 1000);
+        }
+O/P:
+first call
+The end
+second call  (after 2 secs)
+
+ 16. promise:
+ then() and catch() are availiabe on promise object
+ then() handles the response of resolve while
+ catch() handles the resp of reject
+
+ Callback hell:
+ 		function getRecipe() {
+             setTimeout(() => {
+                 const recipeID = [523, 883, 432, 974];
+                 console.log(recipeID);
+
+                 setTimeout(id => {
+                     const recipe = {title: 'Fresh tomato pasta', publisher: 'Jonas'};
+                     console.log(`${id}: ${recipe.title}`);
+
+                     setTimeout(publisher => {
+                         const recipe2 = {title: 'Italian Pizza', publisher: 'Jonas'};
+                         console.log(recipe);
+                     }, 1500, recipe.publisher);
+
+                 }, 1500, recipeID[2]);
+
+             }, 1500);
+         }
+         getRecipe();
+O/P: 
+[523, 883, 432, 974]
+432: Fresh tomato pasta
+23 {title: "Fresh tomato pasta", publisher: "Jonas"}
+
+NOW callback hell can be resolved by Promise, longer code though:
+		const getIDs = new Promise((resolve, reject) => {            // Executor Fumction
+             setTimeout(() => {
+                 resolve([523, 883, 432, 974]);
+             }, 1500);
+         });
+
+         const getRecipe = recID => {
+             return new Promise((resolve, reject) => {
+                 setTimeout(ID => {
+                     const recipe = {title: 'Fresh tomato pasta', publisher: 'Jonas'};
+                     resolve(`${ID}: ${recipe.title}`);
+                 }, 1500, recID);
+             });
+         };
+
+         const getRelated = publisher => {
+             return new Promise((resolve, reject) => {
+                 setTimeout(pub => {
+                     const recipe = {title: 'Italian Pizza', publisher: 'Jonas'};
+                     resolve(`${pub}: ${recipe.title}`);
+                 }, 1500, publisher);
+             });
+         };
+
+         getIDs
+         .then(IDs => {                       // then func is availiable on all promise objects
+             console.log(IDs);
+             return getRecipe(IDs[2]);
+         })
+         .then(recipe => {
+             console.log(recipe);
+             return getRelated('Jonas Schmedtmann');
+         })
+         .then(recipe => {
+             console.log(recipe);
+         })
+         .catch(error => {
+             console.log('Error!!');
+         });
+
+
+17. async-await:
+await always used inside an aync function
+async func runs in the bg
+eg:
+  		async function getRecipesAW() {
+             const IDs = await getIDs;        // await waits until this promise resolve
+             console.log(IDs);
+             const recipe = await getRecipe(IDs[2]);
+             console.log(recipe);
+             const related = await getRelated('Jonas Schmedtmann');
+             console.log(related);
+         }
+         getRecipesAW()
+
+async func always returns a promise, so we just cant get in inside a var but using then()
+             return recipe;
+         }
+         getRecipesAW().then(result => console.log(`${result} is the best ever!`));
+
+
+18. Making AJAX call with Fetch and promises:
+    	function getWeather(woeid) {
+            fetch(`https://cors-anywhere.herokuapp.com/https://www.metaweather.com/api/location/${woeid}/`)
+            .then(result => {
+                // console.log(result);
+                return result.json();
+            })
+            .then(data => {
+                // console.log(data);
+                const today = data.consolidated_weather[0];
+                console.log(`Temperatures today in ${data.title} stay between ${today.min_temp} and ${today.max_temp}.`);
+            })
+            .catch(error => console.log(error));
+        }
+        getWeather(2487956);
+O/P: Temperatures today in San Francisco stay between 9.365 and 12.765.
+
+CORS policy can be avoided by adding: https://cors-anywhere.herokuapp.com/
+https://www.metaweather.com/api/location/ : A third party API to get weather info.
+
+
+19. Doing the same using aync-await:
+ 		async function getWeatherAW(woeid) {
+            try {
+                const result = await fetch(`https://cors-anywhere.herokuapp.com/https://www.metaweather.com/api/location/${woeid}/`);
+                const data = await result.json();
+                const today = data.consolidated_weather[0];
+                console.log(`Temperatures tomorrow in ${data.title} stay between ${today.min_temp} and ${today.max_temp}.`);
+            } catch(error) {
+                alert(error);
+            }
+        }
+        getWeatherAW(2487956);
+O/P: Temperatures today in San Francisco stay between 9.365 and 12.765.
+
+Note: also we can return data and use it by then()
+
+20. 
+map() returns an array with the same length,
+filter() as the name implies, it returns an array with less items than the original array
+reduce() returns a single value (or object)
+find() returns the first items in an array that satisfies a condition
+
+21. Custom Validators with 2 controls:
+function EndDateValidator(controlName: string, matchingControlName: string) {
+  return (formGroup: FormGroup) => {
+    const control = formGroup.controls[controlName];
+    const matchingControl = formGroup.controls[matchingControlName];
+
+    if (matchingControl.errors && !matchingControl.errors.isStartDateGreater) {
+      return;
+    }
+
+    if (matchingControl.value) {
+      if (
+        new Date(control.value.toLocaleDateString()) >
+        new Date(matchingControl.value.toLocaleDateString())
+      ) {
+        matchingControl.setErrors({ isStartDateGreater: true });
+      } else {
+        matchingControl.setErrors(null);
+      }
+    }
+  };
+}
