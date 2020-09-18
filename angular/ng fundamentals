@@ -1300,3 +1300,118 @@ DECLARATIONS: Comps, pipe, directives
 imports: modules
 exports: the module we want to import, that module should be in the exports of that module
 providers: services, resolver 
+
+__________________________
+
+
+1. Template driven form to Reactive form:
+Template driven: We let angular infer everything
+Reactive form: We write everything for the form in the typescript file.
+
+app.module.ts:
+FormsModule ----> ReactiveFromsModule
+Now  ngModel won't work of template driven form
+
+.ts:
+form: FormsGroup
+this.form = this.formBuilder.group({
+  name:['', Validators.required]
+})
+
+form.resetForm()  ---> this.form.reset()
+
+.html:
+<form [formGroup]="form">
+
+ngModel ---> formControlName
+
+<mat-error *ngIf="form.get('name').hasError('required')"
+
+
+2. ANGULAR MODULE:
+The NgModule decorator requires at least three properties: imports, declarations and bootstrap
+
+The bootstrap property is where we define the root component of our module. 
+Even though this property is also an array, 99% of the time we are going to define only one component.
+
+@NgModule({
+  imports: [BrowserModule],
+  declarations: [AppComponent],
+  bootstrap: [AppComponent]
+})
+The BrowserModule is a built-in module that exports basic directives, pipes and services,
+Import to be able to use directives like *ngFor or *ngIf in our templates.
+
+There are two types of modules, root modules and feature modules.
+If the module is importing the BrowserModule then it's a root module, 
+if instead is importing the CommonModule then it is a feature module.
+
+providers: [CreditCardService],
+Be aware that this method of defining a service in the providers property should only be used in the root module.
+
+Every element defined in the declarations array is private by default. 
+We should only export whatever the other modules in our application need to perform its job.
+
+when two or more directives target the same element, they are going to be applied in the order they were defined.
+
+Modules that are lazily loaded will only be loaded when the user navigates to their routes.
+There's nothing special about LazyModule other than it has its own routing and a component called LazyComponent.
+use the property loadChildren instead of component
+define not only the path to the module but the name of the class as well.
+
+ngIf and ngFor are availiable by adding BrowserModule/CommonModule
+
+RouterModule.forRoot(routes) : Only once i.e in app routing module
+RouterModule.forChild(routes): all the other routes ie in feature modules
+
+
+loadChildren is used for lazy loading the modules
+{
+    path: 'dashboard',
+    loadChildren: () =>
+      import('./dashboard/dashboard.module').then((m) => m.DashboardModule),
+    canLoad: [AuthGuard]
+  },
+
+
+NOTE:
+Apply only one at once:
+Eagerly loading:
+  app.module:
+   imports: [ RecipesModule]
+
+Lazy Loading:
+app-routing:
+const appRoutes: Routes = [
+  { path: "", redirectTo: "/recipes", pathMatch: "full" },
+  { path: "recipes", loadChildren: "./recipes/recipes.module#RecipesModule" },
+];
+
+
+declarations:[] A component dec is only allowed once through out the application
+
+
+SERVICE USAGE: **IMPORTANT**
+service:
+@Injectable({
+  providedIn: 'root'
+}) 
+of that feature service
+or 
+in app.module:
+providers:[featureServiceName]
+BOTH ARE SAME and create singelton service that is used one instance through out the application
+
+feature.service
+providers:[featureServiceName]
+This will create a service seperately for that child component(feature comp)
+
+Generally we provide service in the app.module(either of the both ways above), not in the feature module
+as that can create bugs generally, if requirement only then use like that
+
+Also dont provide services is shared module as its no tlike providing service in the app.module and gives error
+
+
+3. JIT(Just In Time) vs AOT(Ahead Of Time) compiler:
+by default 'ng serve' uses JIT which is bit slow
+'ng build --prod' uses AOT which is faster and find error more efficiently.
