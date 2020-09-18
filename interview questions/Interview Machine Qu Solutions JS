@@ -1,0 +1,85 @@
+Q1: 
+Reverse each word in a sentence with order of n
+
+Sol:
+var str = 'Ram Shyam'
+var arr= str.split(' ')
+let y=''
+for(let a of arr){
+let x=''
+  for(let i=a.length-1; i>=0; i--){
+			x += a.charAt(i)
+      console.log(a.charAt(i))
+  }
+    		console.log('x', x)
+        y += x + ' '
+}
+z= y.trim()
+console.log('y', z)
+
+Q2:
+Camel case to snake case
+
+Sol:
+var str = 'ramShyam'
+var snake = ''
+for(let i=0; i<=str.length; i++){
+	if(str.charAt(i) === str.charAt(i).toLowerCase()){
+  snake += str.charAt(i)
+  } else{
+  snake += '_' + str.charAt(i).toLowerCase()
+  }
+}
+console.log('snake', snake)
+
+Q3:
+Count frequency and find letter that have frequency more that half length of word
+
+Sol:
+string='zzzzzzzzzzzzzzzaaaaaaggaabbff'
+    var freq = {};
+    for (var i=0; i<string.length;i++) {
+        var character = string.charAt(i);
+        if (freq[character]) {
+           freq[character]++;
+        } else {
+           freq[character] = 1;
+        }
+    }
+
+console.log(freq);
+var half=Math.floor(string.length/2)
+for(let item in freq){
+  if(half <=freq[item]){
+console.log('item',item)  
+}
+}
+
+Q4: 
+Count frequency of each letter and ascending order
+
+Sol:
+string='zzzzzzzzzzzzzzzaaaaaaggaabbff'
+    var freq = {};
+    for (var i=0; i<string.length;i++) {
+        var character = string.charAt(i);
+        if (freq[character]) {
+           freq[character]++;
+        } else {
+           freq[character] = 1;
+        }
+    }
+let keys= Object.keys(freq)
+keys = keys.sort()
+s={}
+for(let i=0; i<=keys.length-1; i++){
+  s[keys[i]] = freq[keys[i]]
+}
+console.log('s',s)
+var sorted=''
+for(let i in s){
+for(let j=0; j<=s[i]; j++){
+  sorted += i;
+}
+}
+console.log('sorted', sorted)
