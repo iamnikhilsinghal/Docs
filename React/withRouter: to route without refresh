@@ -1,0 +1,15 @@
+import { withRouter } from 'react-router-dom';
+this.props.history.push('/createSalesQuotations');
+export default withRouter(SalesOverview);
+
+
+this.props.history.push pushes to new page programatically without using Link.
+
+withRouter is used to provide wouting related props(like history, location etc) 
+where this component is going to be used
+
+Absolute Paths : to="/some-path"  or to="some-path" -> lead to example.com/some-path 
+
+Relative Paths : If you're on a component loaded via /posts , 
+to="new"  would lead to example.com/new , NOT example.com/posts/new -> 
+<Link to={props.match.url + '/new'}>  will lead to example.com/posts/new 

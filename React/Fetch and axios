@@ -1,0 +1,67 @@
+                              :FETCH:
+GET:
+    componentDidMount() {
+      fetch('http://jsonplaceholder.typicode.com/users')
+        .then((res) => res.json())
+        .then((data) => {
+          this.setState({ contacts: data });
+        })
+        .catch(console.log);
+    }
+
+
+POST:
+   fetch('https://jsonplaceholder.typicode.com/users', {
+      method: 'post',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ user }),
+    }).then((resp) => {
+      console.log('resp:', resp);
+    });
+
+
+DELETE:
+    fetch('https://jsonplaceholder.typicode.com/users/' + this.state.name, {
+      method: 'DELETE',
+    })
+      .then((res) => res.text()) // or res.json()
+      .then((res) => console.log(res));
+  };
+
+
+    _______________________________________________________________
+
+                              :AXIOS:
+GET:
+  componentDidMount() {
+    axios.get(`https://jsonplaceholder.typicode.com/users`).then((res) => {
+      this.setState({ contacts: res.data });
+    });
+  }
+
+
+POST:
+    handleSubmit = (event) => {
+    event.preventDefault();
+    const user = {
+      name: this.state.name,
+    };
+    axios
+      .post(`https://jsonplaceholder.typicode.com/users`, { user })
+      .then((res) => {
+        console.log(res);
+      });
+  };
+
+DELETE:
+    handleSubmit = (event) => {
+    event.preventDefault();
+    axios
+      .delete(`https://jsonplaceholder.typicode.com/users/${this.state.name}`)
+      .then((res) => {
+        console.log(res);
+      });
+  };

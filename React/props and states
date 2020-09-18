@@ -1,0 +1,60 @@
+import React, { Component, Fragment } from 'react';
+
+function About(props) {
+  return (
+    <Fragment>
+      <div>about</div>
+      <span>{props.name}</span>
+      <p>{props.info}</p>
+    </Fragment>
+  );
+}
+
+export default About;
+
+_________________________________
+
+import React, { Component, Fragment } from 'react';
+
+class About extends Component {
+  render() {
+    return (
+      <Fragment>
+        <div>about</div>
+        <span>{this.props.name}</span>
+        <p>{this.props.info}</p>
+      </Fragment>
+    );
+  }
+}
+
+export default About;
+
+____________________________________________________
+
+import React, { Component, Fragment } from 'react';
+
+class About extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      value: '',
+    };
+  }
+
+  display = (event) => {
+    this.setState({ value: event.target.value });
+  };
+
+  render() {
+    return (
+      <Fragment>
+        <div>about</div>
+        <input type='text' value={this.state.value} onChange={this.display} />
+        <div>{this.state.value}</div>
+      </Fragment>
+    );
+  }
+}
+
+export default About;
